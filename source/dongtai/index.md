@@ -1,0 +1,193 @@
+---
+title: 动态
+date: 2020-08-04 10:20:04
+type: dongtai
+---
+<style>
+#scontent {
+background-color: #fff;
+padding: 10px;
+min-height: 500px;
+}
+
+
+body.theme-dark .ctmline::before {
+background: RGBA(255, 255, 255, 0.06);
+}
+
+ul.ctmline {
+padding: 0;
+}
+
+div class.ctmlabel > li .cbp_tmlabel {
+margin-bottom: 0;
+}
+
+.ctmline {
+margin: 30px 0 0 0;
+padding: 0;
+list-style: none;
+position: relative;
+}
+/* The line */
+
+.ctmline:before {
+content: '';
+position: absolute;
+top: 0;
+bottom: 0;
+width: 4px;
+background: RGBA(0, 0, 0, 0.02);
+left: 80px;
+margin-left: 10px;
+}
+
+.ctmline > li .cbp_tmtime {
+display: block;
+max-width: 70px;
+position: absolute;
+}
+
+.ctmline > li .cbp_tmtime span {
+display: block;
+text-align: right;
+}
+
+.ctmline > li .cbp_tmtime span:first-child {
+font-size: 0.9em;
+color: #f2f22a;
+}
+
+.ctmline > li .cbp_tmtime span:last-child {
+font-size: 1.2em;
+color: #7afdfa;
+}
+
+.ctmline > li:nth-child(odd) .cbp_tmtime span:last-child {
+color: RGBA(102,102,102, 0.75);
+}
+
+div.cbp_tmlabel > p {
+margin-bottom: 0;
+}
+
+.ctmline > li .cbp_tmlabel {
+margin: 0 0 45px 65px;
+/*background: #9BCD9B;*/
+background: #666666;
+color: #fff;
+padding: .8em 1.2em .4em 1.2em;
+/* font-size: 1.2em; */
+font-weight: 300;
+line-height: 1.4;
+position: relative;
+border-radius: 5px;
+transition: all 0.3s ease 0s;
+box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+cursor: pointer;
+display: block;
+}
+
+.cbp_tmlabel:hover {
+/* transform:scale(1.05); */
+transform: translateY(-3px);
+z-index: 1;
+box-shadow: 0 15px 32px rgba(0, 0, 0, 0.15) !important
+}
+
+.ctmline > li:nth-child(odd) .cbp_tmlabel {
+background: RGBA(102,102,102, 0.75);
+}
+
+.ctmline > li .cbp_tmlabel:after {
+right: 100%;
+border: solid transparent;
+content: " ";
+height: 0;
+width: 0;
+position: absolute;
+pointer-events: none;
+border-right-color: #666666;
+border-width: 10px;
+top: 4px;
+}
+
+.ctmline > li:nth-child(odd) .cbp_tmlabel:after {
+border-right-color: RGBA(102,102,102, 0.75);
+}
+
+p.shuoshuo_time {
+margin-top: 10px;
+border-top: 1px dashed #fff;
+padding-top: 5px;
+}
+/* Media */
+
+@media screen and (max-width: 65.375em) {
+.ctmline > li .cbp_tmtime span:last-child {
+font-size: 1.2em;
+}
+}
+
+.touxiang img {
+border: 1px solid #ddd;
+padding: 2px;
+float: left;
+border-radius: 64px;
+transition: all 1.0s;
+}
+
+.avatar {
+border-radius: 100% !important;
+-moz-border-radius: 100% !important;
+box-shadow: inset 0 -1px 0 3333sf;
+-webkit-box-shadow: inset 0 -1px 0 3333sf;
+-webkit-transition: 0.4s;
+-webkit-transition: -webkit-transform 0.4s ease-out;
+transition: transform 0.4s ease-out;
+-moz-transition: -moz-transform 0.4s ease-out;
+}
+
+.zhuan {
+transform: rotateZ(720deg);
+-webkit-transform: rotateZ(720deg);
+-moz-transform: rotateZ(720deg);
+}
+</style>
+
+
+
+<div id="scontent">
+<ul class="ctmline">
+<li> <span class ='touxiang'> <img src='https://wx2.sbimg.cn/2020/08/04/PfKBn.jpg' class ='avatar avatar-48 zhuan' width='48' height='48'> </span>
+<a class ='cbp_tmlabel' href=''>
+<p></p>
+<p>游客是你，风景是我。</p>
+<p></p>
+<iframe frameborder='no' border='0' marginwidth='0' marginheight='0' width=340 height=86 src='//music.163.com/outchain/player?type=2&id=316510&auto=0&height=66'></iframe>
+<p>&nbsp;</p>
+<p class='shuoshuo_time'><i class='fa fa-clock-o'></i>
+2020-08-15 18:11:20
+</p></a></li>
+<li> <span class ='touxiang'> <img src='https://wx2.sbimg.cn/2020/08/04/PfKBn.jpg' class ='avatar avatar-48 zhuan' width='48' height='48'> </span>
+<a class ='cbp_tmlabel' href=''>
+<p></p>
+<p>欢迎来玩呀~</p>
+<p></p>
+<p>&nbsp;</p>
+<p class='shuoshuo_time'><i class='fa fa-clock-o'></i>
+2020-08-04 12:15:30
+</p></a></li>
+<li> <span class ='touxiang'> <img src='https://wx2.sbimg.cn/2020/08/04/PfKBn.jpg' class ='avatar avatar-48 zhuan' width='48' height='48'> </span>
+<a class ='cbp_tmlabel' href=''>
+<p></p>
+<p>小站开张了。</p>
+<p></p>
+<p> <img src='https://wx1.sbimg.cn/2020/08/04/PfRkU.jpg'></p>
+<p></p>
+<iframe frameborder='no' border='0' marginwidth='0' marginheight='0' width=340 height=86 src='//music.163.com/outchain/player?type=2&id=1456495375&auto=0&height=66'></iframe>
+<p>&nbsp;</p>
+<p class='shuoshuo_time'><i class='fa fa-clock-o'></i>
+2020-08-04 12:00:27
+</p></a></li>
+</ul></div>

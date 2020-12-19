@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"github.com","root":"/","scheme":"Pisces","version":"8.0.0-rc.5","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"path":"search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false}};
+  </script>
+
+  <meta name="description" content="Introduction to Haskell Functions are first-class, that is, functions are values which can be used in exactly the same ways as any other sort of value.  The meaning of Haskell programs is centered aro">
+<meta property="og:type" content="article">
+<meta property="og:title" content="haskell">
+<meta property="og:url" content="https://github.com/liulx20/2020/08/27/haskell/index.html">
+<meta property="og:site_name" content="liulx">
+<meta property="og:description" content="Introduction to Haskell Functions are first-class, that is, functions are values which can be used in exactly the same ways as any other sort of value.  The meaning of Haskell programs is centered aro">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-08-27T02:34:16.000Z">
+<meta property="article:modified_time" content="2020-09-04T10:11:12.000Z">
+<meta property="article:author" content="liulx">
+<meta property="article:tag" content="haskell">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://github.com/liulx20/2020/08/27/haskell/">
+
+
+<script data-pjax class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>haskell | liulx</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">liulx</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">雪沫乳花浮午盏,蓼茸蒿笋试春盘。人间有味是清欢。</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>留言板</a>
+
+  </li>
+        <li class="menu-item menu-item-dongtai">
+
+    <a href="/dongtai/" rel="section"><i class="fa fa-th fa-fw"></i>动态</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container">
+  <div class="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Introduction-to-Haskell"><span class="nav-number">1.</span> <span class="nav-text">Introduction to Haskell</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85"><span class="nav-number">1.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#type"><span class="nav-number">1.2.</span> <span class="nav-text">type</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Boolean-logic"><span class="nav-number">1.3.</span> <span class="nav-text">Boolean logic</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#function"><span class="nav-number">1.4.</span> <span class="nav-text">function</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#List"><span class="nav-number">1.5.</span> <span class="nav-text">List</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Algebraic-Data-Types"><span class="nav-number">2.</span> <span class="nav-text">Algebraic Data Types</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Enumeration-types"><span class="nav-number">2.1.</span> <span class="nav-text">Enumeration types</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Beyond-enumerations"><span class="nav-number">2.2.</span> <span class="nav-text">Beyond enumerations</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Algebraic-data-types-in-general"><span class="nav-number">2.3.</span> <span class="nav-text">Algebraic data types in general</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Pattern-matching"><span class="nav-number">2.4.</span> <span class="nav-text">Pattern-matching</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Case-expressions"><span class="nav-number">2.5.</span> <span class="nav-text">Case expressions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Recursive-data-types"><span class="nav-number">2.6.</span> <span class="nav-text">Recursive data types</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Haskell-Prelude-function"><span class="nav-number">3.</span> <span class="nav-text">Haskell Prelude function</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B9%98%E6%96%B9%E5%87%BD%E6%95%B0"><span class="nav-number">3.1.</span> <span class="nav-text">乘方函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E5%80%BC%E5%87%BD%E6%95%B0"><span class="nav-number">3.2.</span> <span class="nav-text">数值函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E8%A7%92%E5%87%BD%E6%95%B0"><span class="nav-number">3.3.</span> <span class="nav-text">三角函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E6%95%B0%E5%87%BD%E6%95%B0"><span class="nav-number">3.4.</span> <span class="nav-text">对数函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%A4%E6%96%AD%E5%A5%87%E5%81%B6"><span class="nav-number">3.5.</span> <span class="nav-text">判断奇偶</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pair%E5%87%BD%E6%95%B0"><span class="nav-number">3.6.</span> <span class="nav-text">pair函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%97%E8%A1%A8%E5%87%BD%E6%95%B0"><span class="nav-number">3.7.</span> <span class="nav-text">列表函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#String"><span class="nav-number">3.7.1.</span> <span class="nav-text">String</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B6%E4%BB%96"><span class="nav-number">3.8.</span> <span class="nav-text">其他</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Recursion-patterns-polymorphism-and-the-Prelude"><span class="nav-number">4.</span> <span class="nav-text">Recursion patterns, polymorphism, and the Prelude</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Recursion-patterns"><span class="nav-number">4.1.</span> <span class="nav-text">Recursion patterns</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Map"><span class="nav-number">4.1.1.</span> <span class="nav-text">Map</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Filter"><span class="nav-number">4.1.2.</span> <span class="nav-text">Filter</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Fold"><span class="nav-number">4.1.3.</span> <span class="nav-text">Fold</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Polymorphism"><span class="nav-number">4.2.</span> <span class="nav-text">Polymorphism</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Polymorphic-data-types"><span class="nav-number">4.2.1.</span> <span class="nav-text">Polymorphic data types</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Polymorphic-functions"><span class="nav-number">4.2.2.</span> <span class="nav-text">Polymorphic functions</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#The-Prelude"><span class="nav-number">4.3.</span> <span class="nav-text">The Prelude</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Maybe"><span class="nav-number">4.3.1.</span> <span class="nav-text">Maybe</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Total-and-partial-functions"><span class="nav-number">4.3.2.</span> <span class="nav-text">Total and partial functions</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Replacing-partial-functions"><span class="nav-number">4.3.3.</span> <span class="nav-text">Replacing partial functions</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Writing-partial-functions"><span class="nav-number">4.4.</span> <span class="nav-text">Writing partial functions</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Change-the-output-type-of-the-function-to-indicate-the-possible-failure"><span class="nav-number">4.4.1.</span> <span class="nav-text">Change the output type of the function to indicate the possible failure.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#if-some-condition-is-really-guaranteed-then-the-types-ought-to-reflect-the-guarantee-Then-the-compiler-can-enforce-your-guarantees-for-you"><span class="nav-number">4.4.2.</span> <span class="nav-text">if some condition is really guaranteed, then the types ought to reflect the guarantee! Then the compiler can enforce your guarantees for you.</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Higher-order-programming-and-type-inference"><span class="nav-number">5.</span> <span class="nav-text">Higher-order programming and type inference</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Anonymous-functions"><span class="nav-number">5.1.</span> <span class="nav-text">Anonymous functions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Function-composition"><span class="nav-number">5.2.</span> <span class="nav-text">Function composition</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Currying-and-partial-application"><span class="nav-number">5.3.</span> <span class="nav-text">Currying and partial application</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Partial-application"><span class="nav-number">5.3.1.</span> <span class="nav-text">Partial application</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Wholemeal-programming"><span class="nav-number">5.3.2.</span> <span class="nav-text">Wholemeal programming</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Folds"><span class="nav-number">5.4.</span> <span class="nav-text">Folds</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#More-polymorphism-and-type-classes"><span class="nav-number">6.</span> <span class="nav-text">More polymorphism and type classes</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Parametricity"><span class="nav-number">6.1.</span> <span class="nav-text">Parametricity</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Two-views-on-parametricity"><span class="nav-number">6.2.</span> <span class="nav-text">Two views on parametricity</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Type-classes"><span class="nav-number">6.3.</span> <span class="nav-text">Type classes</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Type-classes-and-Java-interfaces"><span class="nav-number">6.3.1.</span> <span class="nav-text">Type classes and Java interfaces</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Standard-type-classes"><span class="nav-number">6.3.2.</span> <span class="nav-text">Standard type classes</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#A-type-class-example"><span class="nav-number">6.3.3.</span> <span class="nav-text">A type class example</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Lazy-evaluation"><span class="nav-number">7.</span> <span class="nav-text">Lazy evaluation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Strict-evaluation"><span class="nav-number">7.1.</span> <span class="nav-text">Strict evaluation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Side-effects-and-purity"><span class="nav-number">7.2.</span> <span class="nav-text">Side effects and purity</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Lazy-evaluation-1"><span class="nav-number">7.3.</span> <span class="nav-text">Lazy evaluation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Pattern-matching-drives-evaluation"><span class="nav-number">7.4.</span> <span class="nav-text">Pattern matching drives evaluation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Consequences"><span class="nav-number">7.5.</span> <span class="nav-text">Consequences</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Purity"><span class="nav-number">7.5.1.</span> <span class="nav-text">Purity</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Understanding-space-usage"><span class="nav-number">7.5.2.</span> <span class="nav-text">Understanding space usage</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Short-circuiting-operators"><span class="nav-number">7.5.3.</span> <span class="nav-text">Short-circuiting operators</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#User-defined-control-structures"><span class="nav-number">7.5.4.</span> <span class="nav-text">User-defined control structures</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Infinite-data-structures"><span class="nav-number">7.5.5.</span> <span class="nav-text">Infinite data structures</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Pipelining-wholemeal-programming"><span class="nav-number">7.5.6.</span> <span class="nav-text">Pipelining&#x2F;wholemeal programming</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Dynamic-programming"><span class="nav-number">7.5.7.</span> <span class="nav-text">Dynamic programming</span></a></li></ol></li></ol></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="liulx"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">liulx</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/liulx20" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;liulx20"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:liulex@buaa.edu.cn" title="E-Mail → mailto:liulex@buaa.edu.cn" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://dreamfarer.github.io/" title="https:&#x2F;&#x2F;dreamfarer.github.io" rel="noopener" target="_blank">Dream爷</a>
+        </li>
+    </ul>
+  </div>
+
+      </section>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+      
+
+      
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://github.com/liulx20/2020/08/27/haskell/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="liulx">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="liulx">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          haskell
+        </h1>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-08-27 10:34:16" itemprop="dateCreated datePublished" datetime="2020-08-27T10:34:16+08:00">2020-08-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-09-04 18:11:12" itemprop="dateModified" datetime="2020-09-04T18:11:12+08:00">2020-09-04</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="far fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/08/27/haskell/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/08/27/haskell/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="Introduction-to-Haskell"><a href="#Introduction-to-Haskell" class="headerlink" title="Introduction to Haskell"></a>Introduction to Haskell</h2><ul>
+<li><p>Functions are first-class, that is, functions are values which can be used in exactly the same ways as any other sort of value.</p>
+</li>
+<li><p>The meaning of Haskell programs is centered around evaluating expressions rather than executing instructions.</p>
+<a id="more"></a>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-<span class="built_in">get</span> install haskell-<span class="built_in">platform</span></span><br></pre></td></tr></table></figure>
+<p>开启交互模式</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">ghci</span></span><br></pre></td></tr></table></figure>
+<p><code>Ctrl + z</code> 退出交互模式</p>
+</li>
+</ul>
+<p>导入<code>test.hs</code>文件<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-pseudo">:l</span> <span class="selector-tag">test</span><span class="selector-class">.hs</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="type"><a href="#type" class="headerlink" title="type"></a>type</h3><p>GHCi is an interactive Haskell REPL (Read-Eval-Print-Loop) that comes with GHC. At the GHCi prompt, you can evaluate expressions, load Haskell files with :load (:l) (and reload them with :reload (:r)), ask for the type of an expression with :type (:t), and many other things (try :? for a list of commands).<br><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">ex01</span> = <span class="number">3</span> + <span class="number">2</span></span><br><span class="line"><span class="attribute">ex02</span> = <span class="number">8</span> / <span class="number">2</span> --(<span class="number">4</span>.<span class="number">0</span>)</span><br><span class="line"><span class="attribute">ex03</span> = mod <span class="number">19</span> <span class="number">3</span></span><br><span class="line"><span class="attribute">ex04</span> = <span class="number">19</span> `mod` <span class="number">3</span></span><br><span class="line"><span class="attribute">ex05</span> = <span class="number">7</span> ^ <span class="number">222</span></span><br><span class="line"><span class="attribute">ex06</span> = (-<span class="number">3</span>) * (-<span class="number">7</span>)</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><code>backticks</code> make a function name into an infix operator.</li>
+<li>negative numbers must often be surrounded by parentheses, to avoid having the negation sign parsed as subtraction.</li>
+</ul>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- badArith1 = i + n</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>Addition is only between values of the same numeric type, Haskell does not do implicit conversion,you must explicitly convert with:</p>
+<p>fromIntegral: converts from any integral type (Int or Integer) to any other numeric type.</p>
+<p>round, floor, ceiling: convert floating-point numbers to Int or Integer.</p>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- badArith2 = i / i</span></span><br></pre></td></tr></table></figure></li>
+<li>This is an error since / performs floating-point division only. For integer division we can use div.<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ex07 = i `div` i</span><br></pre></td></tr></table></figure>
+<h3 id="Boolean-logic"><a href="#Boolean-logic" class="headerlink" title="Boolean logic"></a>Boolean logic</h3><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">ex08</span> = <span class="literal">True</span> &amp;&amp; <span class="literal">False</span></span><br><span class="line"><span class="attr">ex09</span> = not (<span class="literal">False</span> || <span class="literal">True</span>)</span><br><span class="line"><span class="attr">ex10</span> = <span class="number">2</span> /= <span class="number">3</span> (/= 不等于)</span><br></pre></td></tr></table></figure></li>
+<li><code>if-expressions</code>: if b then t else f</li>
+</ul>
+<p>the else part is required for an if-expression, since the if-expression must result in some value. </p>
+<h3 id="function"><a href="#function" class="headerlink" title="function"></a>function</h3><ul>
+<li>function application has higher precedence than any infix operators</li>
+</ul>
+<h3 id="List"><a href="#List" class="headerlink" title="List"></a>List</h3><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">hello1 :: [Char]</span><br><span class="line">hello1 = [<span class="string">&#x27;h&#x27;</span>, <span class="string">&#x27;e&#x27;</span>, <span class="string">&#x27;l&#x27;</span>, <span class="string">&#x27;l&#x27;</span>, <span class="string">&#x27;o&#x27;</span>]</span><br><span class="line"></span><br><span class="line">hello2 :: String</span><br><span class="line">hello2 = <span class="string">&quot;hello&quot;</span></span><br><span class="line"></span><br><span class="line">helloSame = hello1 == hello2</span><br></pre></td></tr></table></figure>
+<h2 id="Algebraic-Data-Types"><a href="#Algebraic-Data-Types" class="headerlink" title="Algebraic Data Types"></a>Algebraic Data Types</h2><h3 id="Enumeration-types"><a href="#Enumeration-types" class="headerlink" title="Enumeration types"></a>Enumeration types</h3><figure class="highlight coq"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">data Thing = Shoe </span><br><span class="line">           | <span class="type">Ship</span> </span><br><span class="line">           | <span class="type">SealingWax</span> </span><br><span class="line">           | <span class="type">Cabbage</span> </span><br><span class="line">           | <span class="type">King</span></span><br><span class="line">  deriving <span class="keyword">Show</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>The deriving Show is a magical incantation which tells GHC to automatically generate default code for converting Things to Strings.<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">shoe </span>:: Thing</span><br><span class="line"><span class="keyword">shoe </span>= <span class="keyword">Shoe</span></span><br><span class="line"><span class="keyword"></span></span><br><span class="line"><span class="keyword">listO&#x27;Things </span>:: [Thing]</span><br><span class="line">listO<span class="string">&#x27;Things = [Shoe, SealingWax, King, Cabbage, King]</span></span><br></pre></td></tr></table></figure></li>
+<li>We can write functions on Things by pattern-matching.<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">isSmall ::</span> <span class="string">Thing</span> <span class="string">-&gt;</span> <span class="string">Bool</span></span><br><span class="line"><span class="string">isSmall</span> <span class="string">Shoe</span>       <span class="string">=</span> <span class="literal">True</span></span><br><span class="line"><span class="string">isSmall</span> <span class="string">Ship</span>       <span class="string">=</span> <span class="literal">False</span></span><br><span class="line"><span class="string">isSmall</span> <span class="string">SealingWax</span> <span class="string">=</span> <span class="literal">True</span></span><br><span class="line"><span class="string">isSmall</span> <span class="string">Cabbage</span>    <span class="string">=</span> <span class="literal">True</span></span><br><span class="line"><span class="string">isSmall</span> <span class="string">King</span>       <span class="string">=</span> <span class="literal">False</span></span><br></pre></td></tr></table></figure>
+or<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">isSmall2 ::</span> <span class="string">Thing</span> <span class="string">-&gt;</span> <span class="string">Bool</span></span><br><span class="line"><span class="string">isSmall2</span> <span class="string">Ship</span> <span class="string">=</span> <span class="literal">False</span></span><br><span class="line"><span class="string">isSmall2</span> <span class="string">King</span> <span class="string">=</span> <span class="literal">False</span></span><br><span class="line"><span class="string">isSmall2</span> <span class="string">_</span>    <span class="string">=</span> <span class="literal">True</span></span><br></pre></td></tr></table></figure>
+<h3 id="Beyond-enumerations"><a href="#Beyond-enumerations" class="headerlink" title="Beyond enumerations"></a>Beyond enumerations</h3><figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">data</span> <span class="type">FailableDouble</span> = <span class="type">Failure</span></span></span><br><span class="line">                    | <span class="type">OK</span> <span class="type">Double</span></span><br><span class="line">  <span class="keyword">deriving</span> <span class="type">Show</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">ex01</span> = Failure</span><br><span class="line"><span class="attr">ex02</span> = OK <span class="number">3.4</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight gml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">safeDiv :: Double -&gt; Double -&gt; FailableDouble</span><br><span class="line">safeDiv _ <span class="number">0</span> = Failure</span><br><span class="line">safeDiv <span class="symbol">x</span> <span class="symbol">y</span> = OK (<span class="symbol">x</span> / <span class="symbol">y</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">failureToZero :: FailableDouble -&gt; Double</span><br><span class="line">failureToZero Failure = 0</span><br><span class="line">failureToZero (OK d)  = d</span><br></pre></td></tr></table></figure></li>
+<li>Data constructors can have more than one argument.<figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">-- Store a <span class="keyword">person</span>&#x27;s name, age, and favourite <span class="keyword">Thing</span>.</span><br><span class="line">data <span class="keyword">Person</span> = <span class="keyword">Person</span> String Int <span class="keyword">Thing</span></span><br><span class="line">  deriving Show</span><br><span class="line"></span><br><span class="line">brent :: <span class="keyword">Person</span></span><br><span class="line">brent = <span class="keyword">Person</span> <span class="string">&quot;Brent&quot;</span> 31 SealingWax</span><br><span class="line"></span><br><span class="line">stan :: <span class="keyword">Person</span></span><br><span class="line">stan  = <span class="keyword">Person</span> <span class="string">&quot;Stan&quot;</span> 94 Cabbage</span><br><span class="line"></span><br><span class="line">getAge :: <span class="keyword">Person</span> -&gt; Int</span><br><span class="line">getAge (<span class="keyword">Person</span> _ a _) = a</span><br></pre></td></tr></table></figure></li>
+<li>the type constructor and data constructor are both named Person.</li>
+</ul>
+<h3 id="Algebraic-data-types-in-general"><a href="#Algebraic-data-types-in-general" class="headerlink" title="Algebraic data types in general"></a>Algebraic data types in general</h3><figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">data AlgDataType = Co<span class="symbol">nstr1</span> Type<span class="number">11</span> Type<span class="number">12</span></span><br><span class="line">                 | Co<span class="symbol">nstr2</span> Type<span class="number">21</span></span><br><span class="line">                 | Co<span class="symbol">nstr3</span> Type<span class="number">31</span> Type<span class="number">32</span> Type<span class="number">33</span></span><br><span class="line">                 | Co<span class="symbol">nstr4</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>This specifies that a value of type AlgDataType can be constructed in one of four ways.</p>
+</li>
+<li><p>type and data constructor names must always start with a capital letter; variables (including names of functions) must always start with a lowercase letter.</p>
+</li>
+</ul>
+<h3 id="Pattern-matching"><a href="#Pattern-matching" class="headerlink" title="Pattern-matching"></a>Pattern-matching</h3><p>We could write something like<br><figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">foo <span class="comment">(Constr1 a b)</span>   = ...</span><br><span class="line">foo <span class="comment">(Constr2 a)</span>     = ...</span><br><span class="line">foo <span class="comment">(Constr3 a b c)</span> = ...</span><br><span class="line">foo Co<span class="symbol">nstr4</span>         = ...</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><p>parentheses are required around patterns consisting of more than just a single constructor.</p>
+</li>
+<li><p>An underscore _ can be used as a “wildcard pattern” which matches anything.</p>
+</li>
+<li><p>A pattern of the form x@pat can be used to match a value against the pattern pat, but also give the name x to the entire value being matched. For example:</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">baz </span>:: Person -&gt; String</span><br><span class="line"><span class="keyword">baz </span>p@(Person n _ _) = <span class="string">&quot;The name field of (&quot;</span> ++ <span class="keyword">show </span>p ++ <span class="string">&quot;) is &quot;</span> ++ n</span><br><span class="line"></span><br><span class="line">*Main&gt; <span class="keyword">baz </span><span class="keyword">brent</span></span><br><span class="line"><span class="keyword">&quot;The </span>name field of (Person \<span class="string">&quot;Brent\&quot; 31 SealingWax) is Brent&quot;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>字符串用++连接</p>
+</li>
+<li><p>Patterns can be nested. For example:</p>
+<figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">checkFav <span class="symbol">:</span><span class="symbol">:</span> Person -&gt; String</span><br><span class="line">checkFav (Person <span class="built_in">n</span> _ SealingWax) = <span class="built_in">n</span> ++ <span class="string">&quot;, you&#x27;re my kind of person!&quot;</span></span><br><span class="line">checkFav (Person <span class="built_in">n</span> _ _)          = <span class="built_in">n</span> ++ <span class="string">&quot;, your favorite thing is lame.&quot;</span></span><br><span class="line"></span><br><span class="line">*Main&gt; checkFav brent</span><br><span class="line"><span class="string">&quot;Brent, you&#x27;re my kind of person!&quot;</span></span><br><span class="line">*Main&gt; checkFav stan</span><br><span class="line"><span class="string">&quot;Stan, your favorite thing is lame.&quot;</span></span><br></pre></td></tr></table></figure>
+<p>In general, the following grammar defines what can be used as a pattern:</p>
+</li>
+</ul>
+<figure class="highlight oxygene"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">pat ::= _</span><br><span class="line">     |  <span class="keyword">var</span></span><br><span class="line">     |  <span class="keyword">var</span> @ ( pat )</span><br><span class="line">     |  ( <span class="function"><span class="keyword">Constructor</span> <span class="title">pat1</span> <span class="title">pat2</span> ... <span class="title">patn</span> )</span></span><br></pre></td></tr></table></figure>
+<h3 id="Case-expressions"><a href="#Case-expressions" class="headerlink" title="Case expressions"></a>Case expressions</h3><figure class="highlight xl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">case <span class="built_in">exp</span> of</span><br><span class="line">  <span class="function"><span class="title">pat1</span> -&gt;</span> exp1</span><br><span class="line">  <span class="function"><span class="title">pat2</span> -&gt;</span> exp2</span><br><span class="line">  ...</span><br></pre></td></tr></table></figure>
+<p>like this:<br><figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ex03 = <span class="keyword">case</span> <span class="string">&quot;Hello&quot;</span> <span class="keyword">of</span></span><br><span class="line">           []      -&gt; <span class="number">3</span></span><br><span class="line">           <span class="function"><span class="params">(<span class="string">&#x27;H&#x27;</span>:s)</span> -&gt;</span> length s</span><br><span class="line">           _       -&gt; <span class="number">7</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="Recursive-data-types"><a href="#Recursive-data-types" class="headerlink" title="Recursive data types"></a>Recursive data types</h3><ul>
+<li>A list is either empty, or a single element followed by a remaining list.</li>
+</ul>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">data</span> IntList = Empty | Cons <span class="built_in">Int</span> IntList</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Use recursive functions to process recursive data types.<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">int</span>ListProd :: IntList -&gt; Int</span><br><span class="line"><span class="built_in">int</span>ListProd Empty      = <span class="number">1</span></span><br><span class="line"><span class="built_in">int</span>ListProd (Cons x l) = x * <span class="built_in">int</span>ListProd l</span><br></pre></td></tr></table></figure></li>
+<li>we can define a type of binary trees with an Int value stored at each internal node, and a Char stored at each leaf:<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">data Tree = Leaf Char</span><br><span class="line">          | <span class="keyword">Node</span> <span class="title">Tree</span> Int Tree</span><br><span class="line">  deriving Show</span><br></pre></td></tr></table></figure>
+<h2 id="Haskell-Prelude-function"><a href="#Haskell-Prelude-function" class="headerlink" title="Haskell Prelude function"></a>Haskell Prelude function</h2></li>
+</ul>
+<h3 id="乘方函数"><a href="#乘方函数" class="headerlink" title="乘方函数"></a>乘方函数</h3><ul>
+<li>^ 的底数可为小数，也可为整数，指数是正整数；</li>
+<li>^^ 的底数是小数，指数是任意整数；</li>
+<li>** 的底数和指数都是小数)</li>
+</ul>
+<h3 id="数值函数"><a href="#数值函数" class="headerlink" title="数值函数"></a>数值函数</h3><ul>
+<li>signum 取符号 <code>signum (-3) == -1</code></li>
+<li>negate 相反数 <code>negate (-1) == 1</code></li>
+<li>abs 绝对值 </li>
+<li>recip 倒数</li>
+<li>floor 向下取整</li>
+<li>ceiling 向上取整</li>
+<li>round 四舍五入</li>
+<li>truncate 取整</li>
+<li>exp e的次幂</li>
+<li>subtract 减去 <code>subtract 3 5 == 2</code></li>
+<li>gcd lcm</li>
+<li>sqrt</li>
+<li>max min</li>
+<li>compare 比较 <code>compare 3 5 == LT</code> <code>compare 5 3 == GT</code> <code>compare 5 5 == EQ</code></li>
+</ul>
+<h3 id="三角函数"><a href="#三角函数" class="headerlink" title="三角函数"></a>三角函数</h3><ul>
+<li>pi</li>
+<li>sin cos</li>
+<li>tan </li>
+<li>asin acos</li>
+<li>atan atan2</li>
+<li>sinh cosh tanh asinh acosh atanh</li>
+</ul>
+<h3 id="对数函数"><a href="#对数函数" class="headerlink" title="对数函数"></a>对数函数</h3><ul>
+<li>log     exp为底</li>
+<li>logBase <code>logBase 10 10 == 1.0</code></li>
+</ul>
+<h3 id="判断奇偶"><a href="#判断奇偶" class="headerlink" title="判断奇偶"></a>判断奇偶</h3><ul>
+<li>odd even</li>
+</ul>
+<h3 id="pair函数"><a href="#pair函数" class="headerlink" title="pair函数"></a>pair函数</h3><ul>
+<li>fst snd</li>
+</ul>
+<h3 id="列表函数"><a href="#列表函数" class="headerlink" title="列表函数"></a>列表函数</h3><ul>
+<li>(!!) 获取列表第几个元素 <code>[0,1,2,3] !! 1 == 1</code></li>
+<li>lookup <code>lookup 2 [(1, &#39;a&#39;), (2, &#39;b&#39;), (3, &#39;c&#39;)]== &#39;b&#39;</code> 获取列表中第一个元素为2的元组中第二个元素</li>
+<li>elem notElem 判断元素是否在列表中 <code>elem 2 [1,2,3] == True</code></li>
+<li>null 判断列表是否为空 <code>null [] == True</code></li>
+<li>and or 用于Bool列表 <code>and [False,True,True] == False</code></li>
+<li>all any 判断列表是否所有(存在)元素满足条件 <code>all even [2,3,4] == False</code></li>
+<li>(++) 列表连接</li>
+<li>length 求列表长度</li>
+<li>head 列表第一个元素</li>
+<li>tail 取列表除了第一个元素的所有元素</li>
+<li>last 取列表最后一个元素</li>
+<li>init 取列表除最后一个元素</li>
+<li>reverse 列表反转</li>
+<li>cycle 反复出现列表</li>
+<li>repeat 反复出现某一值</li>
+<li>replicate 重复出现某一值一定次数 <code>replicate 3 1 == [1,1,1]</code></li>
+<li>take <code>take 2 [1, 2, 3, 4] == [1,2]</code> 取列表前两个元素</li>
+<li>drop <code>drop 2 [1, 2, 3, 4] == [3,4]</code> 去除列表前两个元素</li>
+<li>splitAt <code>splitAt 1 [1,2,3,4] == ([1],[2,3,4])</code>分割列表</li>
+<li>takeWhile <code>takeWhile even [2, 4, 5] == [2,4]</code> <code>takeWhile odd [2, 4, 5] == []</code> 获取满足某一条件的前几个元素</li>
+<li>dropWhile <code>dropWhile odd [2, 4, 5] == [5]</code> <code>dropWhile odd [2, 4, 5] == [2,4,5]</code>丢弃满足某一条件的前几个元素</li>
+<li>span <code>span even [2, 4, 5] == ([2,4],[5])</code> 分割列表，规则同 takeWhile</li>
+<li>break <code>break odd [2, 4, 5] == ([2,4],[5])</code>分割列表，规则同 dropWhile</li>
+<li>maximum 列表最大元素</li>
+<li>minimum</li>
+<li>sum</li>
+<li>product 列表元素乘积</li>
+<li>enumFrom <code>enumFrom 2 == [2,3,4,...]</code></li>
+<li>enumFromThen <code>enumFromThen 5 3 == [5,3,1,-1,...]</code></li>
+<li>enumFromThenTo <code>enumFromThenTo 5 3 1 == [5,3,1]</code></li>
+<li>enumFromTo <code>enumFromTo 3 5 == [3,4,5]</code> <code>enumFromTo 3 1 == []</code></li>
+<li>show <code>show [2,3] == &quot;[2,3]&quot;</code> <code>show &quot;2&quot; == &quot;\&quot;2\&quot;&quot;</code></li>
+<li>read <code>read &quot;233&quot;::Int == 233</code> <code>read &quot;12&quot;::Double == 12.0</code></li>
+<li>iterate creates an infinite list where the first item is calculated by applying the function on the second argument, the second item by applying the function on the previous result and so on.<br><code>take 4 (iterate (2*) 1) == [1,2,4,8]</code> <code>take 4 (iterate (\x -&gt; (x+3)*2) 1) == [1,8,22,50]</code></li>
+<li>until applies a function which is passed as the second argument to the third argument and it comapares the result with the condition, if the condition evaluates to True, it prints the result, if not, it passes the result to the finction and repeats the cycle as long as the condition is matched<br><code>until (&gt; 100) (*2) 1 == 128</code> <code>until odd (</code>div<code>2) 400 == 25</code></li>
+<li>zip <code>zip [1, 2] [4, 5] = [(1,4),(2,5)]</code></li>
+<li>zip3 <code>zip3 [1, 2] [4, 5] [7, 8] = [(1,4,7),(2,5,8)]</code></li>
+<li>zipWith <code>zipWith (+) [1, 2, 3] [4, 5, 6] = [5,7,9]</code></li>
+<li>zipWith3 <code>zipWith3 (\x y z -&gt; x + y + z) [1, 2, 3] [4, 5, 6] [7, 8, 9] == [12,15,18]</code></li>
+<li>unzip <code>unzip [(1, 4), (2, 5), (3, 6)] == ([1,2,3],[4,5,6])</code></li>
+<li>unzip3 <code>unzip3 [(1, 4, 7), (2, 5, 8), (3, 6, 9)] == ([1,2,3],[4,5,6],[7,8,9])</code></li>
+</ul>
+<h4 id="String"><a href="#String" class="headerlink" title="String"></a>String</h4><ul>
+<li>lines 分割行 <code>lines &quot;abc\n123\ndef\n&quot; == [&quot;abc&quot;,&quot;123&quot;,&quot;def&quot;]</code></li>
+<li>words 分割单词 <code>words &quot;abc\n123 def\t&quot; == [&quot;abc&quot;,&quot;123&quot;,&quot;def&quot;]</code></li>
+<li>unlines 合并行 <code>unlines [&quot;a&quot;,&quot;b&quot;,&quot;c&quot;] == &quot;a\nb\nc\n&quot;</code></li>
+<li>unwords 合并单词 <code>unwords [&quot;a&quot;,&quot;b&quot;] == &quot;a b&quot;</code></li>
+</ul>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
+<li>(.) 函数复合 (f.g) x == f(g x)</li>
+<li>($) apply 函数，通常是为了省写括号<br><code>(map Char.toUpper . filter Char.isLower) &quot;ABCdef&quot; == &quot;DEF&quot;</code><br><code>map Char.toUpper . filter Char.isLower $ &quot;ABCdef&quot; == &quot;DEF&quot;</code></li>
+</ul>
+<h2 id="Recursion-patterns-polymorphism-and-the-Prelude"><a href="#Recursion-patterns-polymorphism-and-the-Prelude" class="headerlink" title="Recursion patterns, polymorphism, and the Prelude"></a>Recursion patterns, polymorphism, and the Prelude</h2><h3 id="Recursion-patterns"><a href="#Recursion-patterns" class="headerlink" title="Recursion patterns"></a>Recursion patterns</h3><h4 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h4><figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">ls</span> = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line">addOne <span class="attr">x</span> = x+<span class="number">1</span></span><br><span class="line"><span class="built_in">map</span> addOne ls</span><br></pre></td></tr></table></figure>
+<h4 id="Filter"><a href="#Filter" class="headerlink" title="Filter"></a>Filter</h4><p>When we want to keep only some elements of a list, and throw others away, based on a test.</p>
+<h4 id="Fold"><a href="#Fold" class="headerlink" title="Fold"></a>Fold</h4><p>“summarize” the elements of the list</p>
+<h3 id="Polymorphism"><a href="#Polymorphism" class="headerlink" title="Polymorphism"></a>Polymorphism</h3><h4 id="Polymorphic-data-types"><a href="#Polymorphic-data-types" class="headerlink" title="Polymorphic data types"></a>Polymorphic data types</h4><p>First, let’s see how to declare a polymorphic data type.<br><figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">data</span> <span class="type">List</span> t = <span class="type">E</span> | <span class="type">C</span> t (<span class="type">List</span> <span class="title">t</span>)</span></span><br></pre></td></tr></table></figure><br>非泛型<br><figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">data</span> <span class="type">IntList</span> = <span class="type">Empty</span> | <span class="type">Cons</span> <span class="type">Int</span> <span class="type">IntList</span></span></span><br><span class="line">  <span class="keyword">deriving</span> <span class="type">Show</span></span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>We have data List t = … The t is a type variable which can stand for any type. </li>
+<li>data List t = … means that the List type is parameterized by a type, in much the same way that a function can be parameterized by some input.<figure class="highlight mathematica"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">lst1</span> <span class="operator">::</span> <span class="built_in">List</span> <span class="variable">Int</span></span><br><span class="line"><span class="variable">lst1</span> <span class="operator">=</span> <span class="built_in">C</span> <span class="number">3</span> <span class="punctuation">(</span><span class="built_in">C</span> <span class="number">5</span> <span class="punctuation">(</span><span class="built_in">C</span> <span class="number">2</span> <span class="built_in">E</span><span class="punctuation">)</span><span class="punctuation">)</span></span><br><span class="line"></span><br><span class="line"><span class="variable">lst2</span> <span class="operator">::</span> <span class="built_in">List</span> <span class="variable">Char</span></span><br><span class="line"><span class="variable">lst2</span> <span class="operator">=</span> <span class="built_in">C</span> <span class="operator">&#x27;</span><span class="variable">x</span><span class="operator">&#x27;</span> <span class="punctuation">(</span><span class="built_in">C</span> <span class="operator">&#x27;</span><span class="variable">y</span><span class="operator">&#x27;</span> <span class="punctuation">(</span><span class="built_in">C</span> <span class="operator">&#x27;</span><span class="variable">z</span><span class="operator">&#x27;</span> <span class="built_in">E</span><span class="punctuation">)</span><span class="punctuation">)</span></span><br><span class="line"></span><br><span class="line"><span class="variable">lst3</span> <span class="operator">::</span> <span class="built_in">List</span> <span class="variable">Bool</span></span><br><span class="line"><span class="variable">lst3</span> <span class="operator">=</span> <span class="built_in">C</span> <span class="built_in">True</span> <span class="punctuation">(</span><span class="built_in">C</span> <span class="built_in">False</span> <span class="built_in">E</span><span class="punctuation">)</span></span><br></pre></td></tr></table></figure>
+<h4 id="Polymorphic-functions"><a href="#Polymorphic-functions" class="headerlink" title="Polymorphic functions"></a>Polymorphic functions</h4><figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">filterList</span> :: (t -&gt; <span class="type">Bool</span>) -&gt; <span class="type">List</span> t -&gt; <span class="type">List</span> t    </span><br><span class="line"><span class="title">filterList</span> _ <span class="type">E</span> = <span class="type">E</span></span><br><span class="line"><span class="title">filterList</span> p (<span class="type">C</span> x xs)</span><br><span class="line">  | p x       = <span class="type">C</span> x (filterList p xs)</span><br><span class="line">  | otherwise = filterList p xs</span><br></pre></td></tr></table></figure>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">mapList</span> :: (a -&gt; b) -&gt; <span class="type">List</span> a -&gt; <span class="type">List</span> b</span><br><span class="line"><span class="title">mapList</span> _ <span class="type">E</span>        = <span class="type">E</span></span><br><span class="line"><span class="title">mapList</span> f (<span class="type">C</span> x xs) = <span class="type">C</span> (f x) (mapList f xs)</span><br></pre></td></tr></table></figure>
+<h3 id="The-Prelude"><a href="#The-Prelude" class="headerlink" title="The Prelude"></a>The Prelude</h3></li>
+</ul>
+<h4 id="Maybe"><a href="#Maybe" class="headerlink" title="Maybe"></a>Maybe</h4><figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">data</span> <span class="type">Maybe</span> a = <span class="type">Nothing</span> | <span class="type">Just</span> a</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>A value of type Maybe a either contains a value of type a (wrapped in the Just constructor), or it is Nothing (representing some sort of failure or error). The Data.Maybe module has functions for working with Maybe values.</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">maybe</span> <span class="literal">False</span> <span class="string">odd</span> <span class="string">(Just</span> <span class="number">3</span><span class="string">)</span> <span class="string">==</span> <span class="literal">True</span></span><br></pre></td></tr></table></figure>
+<h4 id="Total-and-partial-functions"><a href="#Total-and-partial-functions" class="headerlink" title="Total and partial functions"></a>Total and partial functions</h4><ul>
+<li>Functions which have certain inputs that will make them recurse infinitely are also called partial.</li>
+<li>Functions which are well-defined on all possible inputs are known as total functions.</li>
+<li>head is what is known as a partial function: there are certain inputs for which head will crash.</li>
+<li>tail, init, last, and (!!) are partial functions<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">head</span>(<span class="selector-attr">[]</span>)</span><br><span class="line">*** <span class="selector-tag">Exception</span>: <span class="selector-tag">Prelude</span><span class="selector-class">.head</span>: <span class="selector-tag">empty</span> <span class="selector-tag">list</span></span><br></pre></td></tr></table></figure>
+<h4 id="Replacing-partial-functions"><a href="#Replacing-partial-functions" class="headerlink" title="Replacing partial functions"></a>Replacing partial functions</h4>Replace<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">doStuff1 :: [<span class="built_in">Int</span>] -&gt; <span class="built_in">Int</span></span><br><span class="line">doStuff1 []  = <span class="number">0</span></span><br><span class="line">doStuff1 [_] = <span class="number">0</span></span><br><span class="line">doStuff1 xs  = head xs + (head (tail xs)) </span><br></pre></td></tr></table></figure>
+as<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">doStuff2 :<span class="type"></span>: [<span class="keyword">Int</span>] -&gt; <span class="keyword">Int</span></span><br><span class="line">doStuff2 []        = <span class="number">0</span></span><br><span class="line">doStuff2 [<span class="literal">_</span>]       = <span class="number">0</span></span><br><span class="line">doStuff2 (x1:<span class="type">x2</span>:<span class="literal">_</span>) = x1 + x2</span><br></pre></td></tr></table></figure>
+<h3 id="Writing-partial-functions"><a href="#Writing-partial-functions" class="headerlink" title="Writing partial functions"></a>Writing partial functions</h3></li>
+</ul>
+<p>What if you find yourself writing a partial functions?</p>
+<h4 id="Change-the-output-type-of-the-function-to-indicate-the-possible-failure"><a href="#Change-the-output-type-of-the-function-to-indicate-the-possible-failure" class="headerlink" title="Change the output type of the function to indicate the possible failure."></a>Change the output type of the function to indicate the possible failure.</h4><figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">data</span> <span class="type">Maybe</span> a = <span class="type">Nothing</span> | <span class="type">Just</span> a</span></span><br></pre></td></tr></table></figure>
+<p>We could rewrite <code>head</code> safely like this<br><figure class="highlight mizar"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">safeHead <span class="comment">:: [a] -&gt; Maybe a</span></span><br><span class="line">safeHead []    = Nothing</span><br><span class="line">safeHead (x:_) = Just x</span><br></pre></td></tr></table></figure></p>
+<h4 id="if-some-condition-is-really-guaranteed-then-the-types-ought-to-reflect-the-guarantee-Then-the-compiler-can-enforce-your-guarantees-for-you"><a href="#if-some-condition-is-really-guaranteed-then-the-types-ought-to-reflect-the-guarantee-Then-the-compiler-can-enforce-your-guarantees-for-you" class="headerlink" title="if some condition is really guaranteed, then the types ought to reflect the guarantee! Then the compiler can enforce your guarantees for you."></a>if some condition is really guaranteed, then the types ought to reflect the guarantee! Then the compiler can enforce your guarantees for you.</h4><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">data NonEmptyList <span class="keyword">a</span> = NEL <span class="keyword">a</span> [<span class="keyword">a</span>]</span><br><span class="line"></span><br><span class="line">nelToList :: NonEmptyList <span class="keyword">a</span> -&gt; [<span class="keyword">a</span>]</span><br><span class="line">nelToList (NEL x xs) = x:xs</span><br><span class="line"></span><br><span class="line">listToNel :: [<span class="keyword">a</span>] -&gt; Maybe (NonEmptyList <span class="keyword">a</span>)</span><br><span class="line">listToNel []     = Nothing</span><br><span class="line">listToNel (x:xs) = Just $ NEL x xs</span><br><span class="line"></span><br><span class="line">headNEL :: NonEmptyList <span class="keyword">a</span> -&gt; <span class="keyword">a</span></span><br><span class="line">headNEL (NEL <span class="keyword">a</span> _) = <span class="keyword">a</span></span><br><span class="line"></span><br><span class="line">tailNEL :: NonEmptyList <span class="keyword">a</span> -&gt; [<span class="keyword">a</span>]</span><br><span class="line">tailNEL (NEL _ <span class="keyword">as</span>) = <span class="keyword">as</span></span><br></pre></td></tr></table></figure>
+<h2 id="Higher-order-programming-and-type-inference"><a href="#Higher-order-programming-and-type-inference" class="headerlink" title="Higher-order programming and type inference"></a>Higher-order programming and type inference</h2><h3 id="Anonymous-functions"><a href="#Anonymous-functions" class="headerlink" title="Anonymous functions"></a>Anonymous functions</h3><figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">gt100</span> :: <span class="type">Integer</span> -&gt; <span class="type">Bool</span></span><br><span class="line"><span class="title">gt100</span> x = x &gt; <span class="number">100</span></span><br><span class="line"></span><br><span class="line"><span class="title">greaterThan100</span> :: [<span class="type">Integer</span>] -&gt; [<span class="type">Integer</span>]</span><br><span class="line"><span class="title">greaterThan100</span> xs = filter gt100 xs</span><br></pre></td></tr></table></figure>
+<p>anonymous function:<br><figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">greaterThan100_2</span> :: [<span class="type">Integer</span>] -&gt; [<span class="type">Integer</span>]</span><br><span class="line"><span class="title">greaterThan100_2</span> xs = filter (\x -&gt; x &gt; <span class="number">100</span>) xs</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>\x -&gt; x &gt; 100 (the backslash is supposed to look kind of like a lambda with the short leg missing) is the function which takes a single argument x and outputs whether x is greater than 100.</li>
+<li>lambda abstractions can also have multiple arguments.<figure class="highlight gml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(\<span class="symbol">x</span> <span class="symbol">y</span> z -&gt; [<span class="symbol">x</span>,<span class="number">2</span>*<span class="symbol">y</span>,<span class="number">3</span>*z]) <span class="number">5</span> <span class="number">6</span> <span class="number">3</span> == [<span class="number">5</span>,<span class="number">12</span>,<span class="number">9</span>]</span><br></pre></td></tr></table></figure></li>
+<li>if ? is an operator, then (?y) is equivalent to the function \x -&gt; x ? y, and (y?) is equivalent to \x -&gt; y ? x.<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">(&gt;100)</span> <span class="number">102</span> <span class="string">==</span> <span class="literal">True</span></span><br><span class="line"><span class="string">(100&gt;)</span> <span class="number">102</span> <span class="string">==</span> <span class="literal">False</span></span><br></pre></td></tr></table></figure>
+<code>(- 1) 2</code>不可行？ </li>
+</ul>
+<h3 id="Function-composition"><a href="#Function-composition" class="headerlink" title="Function composition"></a>Function composition</h3><figure class="highlight xl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">foo</span> :: (b -&gt;</span> <span class="function"><span class="title">c</span>) -&gt;</span> (<span class="function"><span class="title">a</span> -&gt;</span> <span class="function"><span class="title">b</span>) -&gt;</span> (<span class="function"><span class="title">a</span> -&gt;</span> c)</span><br><span class="line"><span class="function"><span class="title">foo</span> f g = \x -&gt;</span> f (g x)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>foo is really called (.), and represents function composition. That is, if f and g are functions, then f . g is the function which does first g and then f.</li>
+</ul>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">myTest :: [<span class="type">Integer</span>] -&gt; <span class="type">Bool</span></span><br><span class="line">myTest xs = even (length (greaterThan100 xs))</span><br></pre></td></tr></table></figure>
+<p>We can rewrite this as:<br><figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">myTest :: [Integer] -&gt; <span class="built_in">Bool</span></span><br><span class="line">myTest xs = even.length.greaterThan100 xs</span><br></pre></td></tr></table></figure><br><figure class="highlight xl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Prelude&gt; :t (.)</span><br><span class="line">(.) :: (<span class="function"><span class="title">b</span> -&gt;</span> <span class="function"><span class="title">c</span>) -&gt;</span> (<span class="function"><span class="title">a</span> -&gt;</span> <span class="function"><span class="title">b</span>) -&gt;</span> <span class="function"><span class="title">a</span> -&gt;</span> c</span><br></pre></td></tr></table></figure></p>
+<h3 id="Currying-and-partial-application"><a href="#Currying-and-partial-application" class="headerlink" title="Currying and partial application"></a>Currying and partial application</h3><figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">f :: <span class="built_in">Int</span> -&gt; <span class="built_in">Int</span> -&gt; <span class="built_in">Int</span></span><br><span class="line">f x y = <span class="number">2</span>*x + y</span><br></pre></td></tr></table></figure>
+<p>equivalently write f’s type like this:<br><figure class="highlight sml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">f&#x27; :: <span class="type">Int</span> -&gt; (<span class="type">Int</span> -&gt; <span class="type">Int</span>)</span><br><span class="line">f&#x27; x y = <span class="number">2</span>*x + y</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>representing multi-argument functions as one-argument functions returning functions</li>
+<li>If we want to actually represent a function of two arguments we can use a single argument which is a tuple.<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">f<span class="string">&#x27;&#x27;</span> :: (<span class="built_in">Int</span>,<span class="built_in">Int</span>) -&gt; <span class="built_in">Int</span></span><br><span class="line">f<span class="string">&#x27;&#x27;</span> (x,y) = <span class="number">2</span>*x + y</span><br></pre></td></tr></table></figure></li>
+<li>In order to convert between the two representations of a two-argument function, the standard library defines functions called curry and uncurry, defined like this<figure class="highlight xl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">sch</span>önfinkel :: ((a,b) -&gt;</span> <span class="function"><span class="title">c</span>) -&gt;</span> <span class="function"><span class="title">a</span> -&gt;</span> <span class="function"><span class="title">b</span> -&gt;</span> c</span><br><span class="line">schönfinkel f x y = f (x,y)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">unsch</span>önfinkel :: (a -&gt;</span> <span class="function"><span class="title">b</span> -&gt;</span> <span class="function"><span class="title">c</span>) -&gt;</span> (<span class="function"><span class="title">a</span>,b) -&gt;</span> c</span><br><span class="line">unschönfinkel f (x,y) = f x y</span><br></pre></td></tr></table></figure></li>
+<li><p>uncurry in particular can be useful when you have a pair and want to apply a function to it. For example:</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Prelude</span>&gt; uncurry (+) (<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line"><span class="attribute">5</span></span><br></pre></td></tr></table></figure>
+<h4 id="Partial-application"><a href="#Partial-application" class="headerlink" title="Partial application"></a>Partial application</h4></li>
+<li><p>In Haskell there are no functions of multiple arguments! </p>
+</li>
+<li>Every function can be “partially applied” to its first (and only) argument, resulting in a function of the remaining arguments.</li>
+<li>Haskell doesn’t make it easy to partially apply to an argument other than the first. </li>
+<li>he one exception is infix operators, which as we’ve seen, can be partially applied to either of their two arguments using an operator section. </li>
+</ul>
+<h4 id="Wholemeal-programming"><a href="#Wholemeal-programming" class="headerlink" title="Wholemeal programming"></a>Wholemeal programming</h4><figure class="highlight coq"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">foobar :: [Integer] -&gt; Integer</span><br><span class="line">foobar []     = <span class="number">0</span></span><br><span class="line">foobar (x:xs)</span><br><span class="line">  | <span class="type">x</span> &gt; <span class="number">3</span>     = (<span class="number">7</span>*x + <span class="number">2</span>) + foobar xs</span><br><span class="line">  | <span class="type">otherwise</span> = foobar xs</span><br></pre></td></tr></table></figure>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fooba<span class="string">r&#x27; :: [Integer] -&gt; Integer</span></span><br><span class="line"><span class="string">foobar&#x27;</span> = sum . map (\x -&gt; <span class="number">7</span>*x + <span class="number">2</span>) . filter (&gt;<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="Folds"><a href="#Folds" class="headerlink" title="Folds"></a>Folds</h3><p>We have one more recursion pattern on lists to talk about: folds.<br>all of them somehow “combine” the elements of the list into a final answer.</p>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">sum&#x27;</span> :: [<span class="type">Integer</span>] -&gt; <span class="type">Integer</span></span><br><span class="line"><span class="title">sum&#x27;</span> []     = <span class="number">0</span></span><br><span class="line"><span class="title">sum&#x27;</span> (x:xs) = x + sum&#x27; xs</span><br><span class="line"></span><br><span class="line"><span class="title">product&#x27;</span> :: [<span class="type">Integer</span>] -&gt; <span class="type">Integer</span></span><br><span class="line"><span class="title">product&#x27;</span> [] = <span class="number">1</span></span><br><span class="line"><span class="title">product&#x27;</span> (x:xs) = x * product&#x27; xs</span><br><span class="line"></span><br><span class="line"><span class="title">length&#x27;</span> :: [a] -&gt; <span class="type">Int</span></span><br><span class="line"><span class="title">length&#x27;</span> []     = <span class="number">0</span></span><br><span class="line"><span class="title">length&#x27;</span> (_:xs) = <span class="number">1</span> + length&#x27; xs</span><br></pre></td></tr></table></figure>
+<p>define higher-order functions:</p>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">fold</span> :: b -&gt; (a -&gt; b -&gt; b) -&gt; [a] -&gt; b</span><br><span class="line"><span class="title">fold</span> z f []     = z</span><br><span class="line"><span class="title">fold</span> z f (x:xs) = f x (fold z f xs)</span><br></pre></td></tr></table></figure>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">fold</span> f z [a,b,c] == a `f` (b `f` (c `f` z))</span><br></pre></td></tr></table></figure>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">sum&#x27;&#x27;</span>     = fold <span class="number">0</span> (+)</span><br><span class="line"><span class="title">product&#x27;&#x27;</span> = fold <span class="number">1</span> (*)</span><br><span class="line"><span class="title">length&#x27;&#x27;</span>  = fold <span class="number">0</span> (\_ s -&gt; <span class="number">1</span> + s)</span><br><span class="line"></span><br><span class="line">(<span class="type">Instead</span> <span class="keyword">of</span> (\_ s -&gt; <span class="number">1</span> + s) we could also write (\_ -&gt; (<span class="number">1</span>+)) or even (const (<span class="number">1</span>+)).)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>fold is already provided in the standard Prelude, under the name foldr<br>Here are some Prelude functions which are defined in terms of foldr:</li>
+</ul>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">length</span> :: [a] -&gt; <span class="type">Int</span></span><br><span class="line"><span class="title">sum</span> :: <span class="type">Num</span> a =&gt; [a] -&gt; a</span><br><span class="line"><span class="title">product</span> :: <span class="type">Num</span> a =&gt; [a] -&gt; a</span><br><span class="line"><span class="title">and</span> :: [<span class="type">Bool</span>] -&gt; <span class="type">Bool</span></span><br><span class="line"><span class="title">or</span> :: [<span class="type">Bool</span>] -&gt; <span class="type">Bool</span></span><br><span class="line"><span class="title">any</span> :: (a -&gt; <span class="type">Bool</span>) -&gt; [a] -&gt; <span class="type">Bool</span></span><br><span class="line"><span class="title">all</span> :: (a -&gt; <span class="type">Bool</span>) -&gt; [a] -&gt; <span class="type">Bool</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>There is also foldl, which folds “from the left”. </li>
+</ul>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">foldr</span> f z [a,b,c] == a `f` (b `f` (c `f` z))</span><br><span class="line"><span class="title">foldl</span> f z [a,b,c] == ((z `f` a) `f` b) `f` c</span><br></pre></td></tr></table></figure>
+<ul>
+<li>you should use foldl’ from Data.List instead, which does the same thing as foldl but is more efficient.</li>
+</ul>
+<h2 id="More-polymorphism-and-type-classes"><a href="#More-polymorphism-and-type-classes" class="headerlink" title="More polymorphism and type classes"></a>More polymorphism and type classes</h2><h3 id="Parametricity"><a href="#Parametricity" class="headerlink" title="Parametricity"></a>Parametricity</h3><figure class="highlight gml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">f :: a -&gt; a -&gt; a</span><br><span class="line">f <span class="symbol">x</span> <span class="symbol">y</span> = <span class="symbol">x</span> &amp;&amp; <span class="symbol">y</span></span><br></pre></td></tr></table></figure>
+<p>The reason this doesn’t work is that the caller of a polymorphic function gets to choose the type. Here we, the implementors, have tried to choose a specific type (namely, Bool), but we may be given String, or Int, or even some type defined by someone using f, which we can’t possibly know about in advance. In other words, you can read the type<br><figure class="highlight xl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">a</span> -&gt;</span> <span class="function"><span class="title">a</span> -&gt;</span> a</span><br></pre></td></tr></table></figure><br>as a promise that a function with this type will work no matter what type the caller chooses.</p>
+<h3 id="Two-views-on-parametricity"><a href="#Two-views-on-parametricity" class="headerlink" title="Two views on parametricity"></a>Two views on parametricity</h3><figure class="highlight mizar"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(==) <span class="comment">:: Eq a   =&gt; a -&gt; a -&gt; Bool</span></span><br><span class="line">(&lt;)  <span class="comment">:: Ord a  =&gt; a -&gt; a -&gt; Bool</span></span><br><span class="line">show <span class="comment">:: Show a =&gt; a -&gt; String</span></span><br></pre></td></tr></table></figure>
+<h3 id="Type-classes"><a href="#Type-classes" class="headerlink" title="Type classes"></a>Type classes</h3><ul>
+<li>Num, Eq, Ord, and Show are type classes, and we say that (==), (&lt;), and (+) are “type-class polymorphic”.</li>
+<li>Intuitively, type classes correspond to sets of types which have certain operations defined for them, and type class polymorphic functions work only for types which are instances of the type class(es) in question.<figure class="highlight xl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">class Eq a <span class="keyword">where</span></span><br><span class="line">  (==) :: <span class="function"><span class="title">a</span> -&gt;</span> <span class="function"><span class="title">a</span> -&gt;</span> Bool</span><br><span class="line">  (/=) :: <span class="function"><span class="title">a</span> -&gt;</span> <span class="function"><span class="title">a</span> -&gt;</span> Bool</span><br></pre></td></tr></table></figure></li>
+<li>Eq is declared to be a type class with a single parameter, a.</li>
+<li>Any type a which wants to be an instance of Eq must define two functions, (==) and (/=), with the indicated type signatures.</li>
+</ul>
+<figure class="highlight mizar"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(==) <span class="comment">:: Eq a =&gt; a -&gt; a -&gt; Bool</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>The Eq a that comes before the =&gt; is a type class constraint.</li>
+<li>We can read this as saying that for any type a, as long as a is an instance of Eq, (==) can take two values of type a and return a Bool.</li>
+<li>Let’s make our own type and declare an instance of Eq for it. <figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">data Foo = F Int | G Char</span><br><span class="line"></span><br><span class="line">instance Eq Foo where</span><br><span class="line">  (F i1) == (F i2) = i1 == i2</span><br><span class="line">  (G c1) == (G c2) = c1 == c2</span><br><span class="line">  _ == _ = False</span><br><span class="line"></span><br><span class="line">  foo1 /= foo2 =<span class="built_in"> not </span>(foo1 == foo2)</span><br></pre></td></tr></table></figure></li>
+<li><p>the Eq class is actually declared like this:</p>
+<figure class="highlight gml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">class Eq a where</span><br><span class="line">  (==), (/=) :: a -&gt; a -&gt; Bool</span><br><span class="line">  <span class="symbol">x</span> == <span class="symbol">y</span> = <span class="keyword">not</span> (<span class="symbol">x</span> /= <span class="symbol">y</span>)</span><br><span class="line">  <span class="symbol">x</span> /= <span class="symbol">y</span> = <span class="keyword">not</span> (<span class="symbol">x</span> == <span class="symbol">y</span>)</span><br></pre></td></tr></table></figure>
+<p>This means that when we make an instance of Eq, we can define either (==) or (/=), whichever is more convenient; </p>
+</li>
+<li><p>As it turns out, Eq (along with a few other standard type classes) is special: GHC is able to automatically generate instances of Eq for us. Like so:</p>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">data</span> <span class="type">Foo&#x27;</span> = <span class="type">F&#x27;</span> <span class="type">Int</span> | <span class="type">G&#x27;</span> <span class="type">Char</span></span></span><br><span class="line">  <span class="keyword">deriving</span> (<span class="type">Eq</span>, <span class="type">Ord</span>, <span class="type">Show</span>)</span><br></pre></td></tr></table></figure>
+<p>This tells GHC to automatically derive instances of the Eq, Ord, and Show type classes for our data type Foo.</p>
+</li>
+</ul>
+<h4 id="Type-classes-and-Java-interfaces"><a href="#Type-classes-and-Java-interfaces" class="headerlink" title="Type classes and Java interfaces"></a>Type classes and Java interfaces</h4><ul>
+<li>Both define a set of types/classes which implement a specified list of operations.</li>
+</ul>
+<ol>
+<li>When a Java class is defined, any interfaces it implements must be declared. Type class instances, on the other hand, are declared separately from the declaration of the corresponding types, and can even be put in a separate module.</li>
+<li>The types that can be specified for type class methods are more general and flexible than the signatures that can be given for Java interface methods, especially when multi-parameter type classes enter the picture. For example, consider a hypothetical type class<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Blerg a b <span class="keyword">where</span></span><br><span class="line">  blerg :: a -&gt; b -&gt; <span class="built_in">Bool</span></span><br></pre></td></tr></table></figure>
+Using blerg amounts to doing multiple dispatch: which implementation of blerg the compiler should choose depends on both the types a and b. There is no easy way to do this in Java.<br>Haskell type classes can also easily handle binary (or ternary, or …) methods, as in<figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="type">Num</span> a <span class="keyword">where</span></span></span><br><span class="line">  (+) :: a -&gt; a -&gt; a</span><br></pre></td></tr></table></figure>
+There is no nice way to do this in Java: for one thing, one of the two arguments would have to be the “privileged” one which is actually getting the (+) method invoked on it, and this asymmetry is awkward. Furthermore, because of Java’s subtyping, getting two arguments of a certain interface type does not guarantee that they are actually the same type, which makes implementing binary operators such as (+) awkward (usually requiring some runtime type checks).</li>
+</ol>
+<h4 id="Standard-type-classes"><a href="#Standard-type-classes" class="headerlink" title="Standard type classes"></a>Standard type classes</h4><ul>
+<li>Ord is for types whose elements can be totally ordered, that is, where any two elements can be compared to see which is less than the other. It provides comparison operations like (&lt;) and (&lt;=), and also the compare function.</li>
+<li>Num is for “numeric” types, which support things like addition, subtraction, and multipication. One very important thing to note is that integer literals are actually type class polymorphic:<figure class="highlight mizar"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Prelude&gt; :t 5</span><br><span class="line">5 <span class="comment">:: Num a =&gt; a</span></span><br></pre></td></tr></table></figure>
+This means that literals like 5 can be used as Ints, Integers, Doubles, or any other type which is an instance of Num (Rational, Complex Double, or even a type you define…)</li>
+<li>Show defines the method show, which is used to convert values into Strings.</li>
+<li>Read is the dual of Show.</li>
+<li>Integral represents whole number types such as Int and Integer.</li>
+</ul>
+<h4 id="A-type-class-example"><a href="#A-type-class-example" class="headerlink" title="A type class example"></a>A type class example</h4><figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Listable a <span class="keyword">where</span></span><br><span class="line">  toList :: a -&gt; [<span class="built_in">Int</span>]</span><br></pre></td></tr></table></figure>
+<p>We can think of Listable as the class of things which can be converted to a list of Ints. Look at the type of toList:<br><figure class="highlight mizar"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">toList <span class="comment">:: Listable a =&gt; a -&gt; [Int]</span></span><br></pre></td></tr></table></figure><br>First, an Int can be converted to an [Int] just by creating a singleton list, and Bool can be converted similarly, say, by translating True to 1 and False to 0:<br><figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">instance</span> <span class="type">Listable</span> <span class="type">Int</span> <span class="keyword">where</span></span></span><br><span class="line">  <span class="comment">-- toList :: Int -&gt; [Int]</span></span><br><span class="line">  toList x = [x]</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">instance</span> <span class="type">Listable</span> <span class="type">Bool</span> <span class="keyword">where</span></span></span><br><span class="line">  toList <span class="type">True</span>  = [<span class="number">1</span>]</span><br><span class="line">  toList <span class="type">False</span> = [<span class="number">0</span>]</span><br></pre></td></tr></table></figure><br>We don’t need to do any work to convert a list of Int to a list of Int:<br><figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">instance</span> <span class="type">Listable</span> [<span class="type">Int</span>] <span class="keyword">where</span></span></span><br><span class="line">    toList = id</span><br></pre></td></tr></table></figure><br>Finally, here’s a binary tree type which we can convert to a list by flattening:<br><figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">data</span> <span class="type">Tree</span> a = <span class="type">Empty</span> | <span class="type">Node</span> a (<span class="type">Tree</span> <span class="title">a</span>) (<span class="type">Tree</span> <span class="title">a</span>)</span></span><br><span class="line"><span class="class"><span class="keyword">instance</span> <span class="type">Listable</span> (<span class="type">Tree</span> <span class="type">Int</span>) <span class="keyword">where</span></span></span><br><span class="line">    toList <span class="type">Node</span>(x,l,r) = toList l ++ [x] ++ toList r</span><br></pre></td></tr></table></figure><br>If we implement other functions in terms of toList, they also get a Listable constraint.<br><figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">sumL</span> x = sum (toList x)</span><br></pre></td></tr></table></figure><br>ghci informs us that type type of sumL is<br><figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">sumL</span> :: <span class="type">Listable</span> a =&gt; a -&gt; <span class="type">Int</span></span><br></pre></td></tr></table></figure><br><figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">foo</span> x y = sum (toList x) == sum (toList y) || x &lt; y</span><br></pre></td></tr></table></figure><br>type foo:<br><figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">foo</span> :: (<span class="type">Listable</span> a,<span class="type">Ord</span> a) =&gt; a -&gt; a -&gt; <span class="type">Bool</span></span><br></pre></td></tr></table></figure><br><figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">instance</span> (<span class="type">Listable</span> <span class="title">a</span>, <span class="type">Listable</span> <span class="title">b</span>) =&gt; <span class="type">Listable</span> (<span class="title">a</span>,<span class="title">b</span>) <span class="keyword">where</span></span></span><br><span class="line">  toList (x,y) = toList x ++ toList y</span><br></pre></td></tr></table></figure><br>Notice how we can put type class constraints on an instance as well as on a function type. This says that a pair type (a,b) is an instance of Listable as long as a and b both are. Then we get to use toList on values of types a and b in our definition of toList for a pair. Note that this definition is not recursive! The version of toList that we are defining is calling other versions of toList, not itself.</p>
+<h2 id="Lazy-evaluation"><a href="#Lazy-evaluation" class="headerlink" title="Lazy evaluation"></a>Lazy evaluation</h2><h3 id="Strict-evaluation"><a href="#Strict-evaluation" class="headerlink" title="Strict evaluation"></a>Strict evaluation</h3><ul>
+<li>Under a strict evaluation strategy, function arguments are completely evaluated before passing them to the function.</li>
+<li>The benefit of strict evaluation is that it is easy to predict when and in what order things will happen. </li>
+</ul>
+<h3 id="Side-effects-and-purity"><a href="#Side-effects-and-purity" class="headerlink" title="Side effects and purity"></a>Side effects and purity</h3><h3 id="Lazy-evaluation-1"><a href="#Lazy-evaluation-1" class="headerlink" title="Lazy evaluation"></a>Lazy evaluation</h3><ul>
+<li>Under a lazy evaluation strategy, evaluation of function arguments is delayed as long as possible: they are not evaluated until it actually becomes necessary to do so. </li>
+<li>When some expression is given as an argument to a function, it is simply packaged up as an unevaluated expression (called a “thunk”, don’t ask me why) without doing any actual work.<h3 id="Pattern-matching-drives-evaluation"><a href="#Pattern-matching-drives-evaluation" class="headerlink" title="Pattern matching drives evaluation"></a>Pattern matching drives evaluation</h3></li>
+</ul>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">f1</span> :: <span class="type">Maybe</span> a -&gt; [<span class="type">Maybe</span> a]</span><br><span class="line"><span class="title">f1</span> m = [m,m]</span><br><span class="line"></span><br><span class="line"><span class="title">f2</span> :: <span class="type">Maybe</span> a -&gt; [a]</span><br><span class="line"><span class="title">f2</span> <span class="type">Nothing</span>  = []</span><br><span class="line"><span class="title">f2</span> (<span class="type">Just</span> x) = [x]</span><br></pre></td></tr></table></figure>
+<ul>
+<li>f1 uses its argument m, it does not need to know anything about it. m can remain completely unevaluated, and the unevaluated expression is simply put in a list. </li>
+<li>f2, on the other hand, needs to know something about its argument in order to proceed: was it constructed with Nothing or Just.</li>
+<li>The other important thing to note is that thunks are evaluated only enough to allow a pattern match to proceed, and no further!</li>
+<li>suppose we wanted to evaluate f2 (safeHead [3^500, 49]). f2 would force evaluation of the call to safeHead [3^500, 49], which would evaluate to Just (3^500)—note that the 3^500 is not evaluated</li>
+</ul>
+<p><code>Expressions are only evaluated when pattern-matched</code></p>
+<p><code>…only as far as necessary for the match to proceed, and no farther!</code></p>
+<h3 id="Consequences"><a href="#Consequences" class="headerlink" title="Consequences"></a>Consequences</h3><h4 id="Purity"><a href="#Purity" class="headerlink" title="Purity"></a>Purity</h4><h4 id="Understanding-space-usage"><a href="#Understanding-space-usage" class="headerlink" title="Understanding space usage"></a>Understanding space usage</h4><figure class="highlight xl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-- Standard library function foldl, provided <span class="keyword">for</span> reference</span><br><span class="line"><span class="function"><span class="title">foldl</span> :: (b -&gt;</span> <span class="function"><span class="title">a</span> -&gt;</span> <span class="function"><span class="title">b</span>) -&gt;</span> <span class="function"><span class="title">b</span> -&gt;</span> [<span class="function"><span class="title">a</span>] -&gt;</span> b</span><br><span class="line">foldl _ z []     = z</span><br><span class="line">foldl f z (x:xs) = foldl f (f z x) xs</span><br></pre></td></tr></table></figure>
+<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="code">  foldl (+) 0 [1,2,3]</span></span><br><span class="line"><span class="section">= foldl (+) (0+1) [2,3]</span></span><br><span class="line"><span class="section">= foldl (+) ((0+1)+2) [3]</span></span><br><span class="line"><span class="section">= foldl (+) (((0+1)+2)+3) []</span></span><br><span class="line"><span class="section">= (((0+1)+2)+3)</span></span><br><span class="line"><span class="section">= ((1+2)+3)</span></span><br><span class="line"><span class="section">= (3+3)</span></span><br><span class="line"><span class="section">= 6</span></span><br></pre></td></tr></table></figure>
+<p>Since the value of the accumulator is not demanded until recursing through the entire list, the accumulator simply builds up a big unevaluated expression (((0+1)+2)+3), which finally gets reduced to a value at the end.</p>
+<ul>
+<li>One is that it’s simply inefficient: there’s no point in transferring all the numbers from the list into a different list-like thing (the accumulator thunk) before actually adding them up. </li>
+<li>The second problem is more subtle, and more insidious: evaluating the expression (((0+1)+2)+3) actually requires pushing the 3 and 2 onto a stack before being able to compute 0+1 and then unwinding the stack, adding along the way.<br>for very long lists it’s a big problem: there is usually not as much space available for the stack, so this can lead to a stack overflow.</li>
+<li>The solution in this case is to use the foldl’ function instead of foldl, which adds a bit of strictness<h4 id="Short-circuiting-operators"><a href="#Short-circuiting-operators" class="headerlink" title="Short-circuiting operators"></a>Short-circuiting operators</h4><figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(&amp;&amp;) :: <span class="built_in">Bool</span> -&gt; <span class="built_in">Bool</span> -&gt; <span class="built_in">Bool</span></span><br><span class="line"><span class="literal">True</span>  &amp;&amp; x = x</span><br><span class="line"><span class="literal">False</span> &amp;&amp; _ = <span class="literal">False</span></span><br></pre></td></tr></table></figure>
+<h4 id="User-defined-control-structures"><a href="#User-defined-control-structures" class="headerlink" title="User-defined control structures"></a>User-defined control structures</h4>In Haskell, however, we can define if as a library function!<figure class="highlight sml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">if&#x27; :: <span class="type">Bool</span> -&gt; a -&gt; a -&gt; a</span><br><span class="line">if&#x27; <span class="type">True</span>  x _ = x</span><br><span class="line">if&#x27; <span class="type">False</span> _ y = y</span><br></pre></td></tr></table></figure>
+<h4 id="Infinite-data-structures"><a href="#Infinite-data-structures" class="headerlink" title="Infinite data structures"></a>Infinite data structures</h4><h4 id="Pipelining-wholemeal-programming"><a href="#Pipelining-wholemeal-programming" class="headerlink" title="Pipelining/wholemeal programming"></a>Pipelining/wholemeal programming</h4></li>
+</ul>
+<h4 id="Dynamic-programming"><a href="#Dynamic-programming" class="headerlink" title="Dynamic programming"></a>Dynamic programming</h4><p>Using lazy evaluation we can get the Haskell runtime to work out the proper order of evaluation for us! For example, here is some Haskell code to solve the 0-1 knapsack problem.<br><figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Data.Array</span><br><span class="line"></span><br><span class="line"><span class="title">knapsack01</span> :: [<span class="type">Double</span>]   <span class="comment">-- values </span></span><br><span class="line">           -&gt; [<span class="type">Integer</span>]  <span class="comment">-- nonnegative weights</span></span><br><span class="line">           -&gt; <span class="type">Integer</span>    <span class="comment">-- knapsack size</span></span><br><span class="line">           -&gt; <span class="type">Double</span>     <span class="comment">-- max possible value</span></span><br><span class="line"><span class="title">knapsack01</span> vs ws maxW = m!(numItems<span class="number">-1</span>, maxW)</span><br><span class="line">  <span class="keyword">where</span> numItems = length vs</span><br><span class="line">        m = array ((<span class="number">-1</span>,<span class="number">0</span>), (numItems<span class="number">-1</span>, maxW)) $</span><br><span class="line">              [((<span class="number">-1</span>,w), <span class="number">0</span>) | w &lt;- [<span class="number">0</span> .. maxW]] ++</span><br><span class="line">              [((i,<span class="number">0</span>), <span class="number">0</span>) | i &lt;- [<span class="number">0</span> .. numItems<span class="number">-1</span>]] ++</span><br><span class="line">              [((i,w), best) </span><br><span class="line">                  | i &lt;- [<span class="number">0</span> .. numItems<span class="number">-1</span>]</span><br><span class="line">                  , w &lt;- [<span class="number">1</span> .. maxW]</span><br><span class="line">                  , <span class="keyword">let</span> best</span><br><span class="line">                          | ws!!i &gt; w  = m!(i<span class="number">-1</span>, w)</span><br><span class="line">                          | otherwise = max (m!(i<span class="number">-1</span>, w)) </span><br><span class="line">                                            (m!(i<span class="number">-1</span>, w - ws!!i) + vs!!i)</span><br><span class="line">              ]</span><br><span class="line"></span><br><span class="line"><span class="title">example</span> = knapsack01 [<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">8</span>,<span class="number">10</span>] [<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">9</span>] <span class="number">20</span></span><br></pre></td></tr></table></figure></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/haskell/" rel="tag"><i class="fa fa-tag"></i> haskell</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/08/21/C%E8%AF%AD%E8%A8%80%E7%9A%84%E4%B8%80%E4%BA%9B%E8%AE%B0%E5%BD%95/" rel="prev" title="C语言的一些记录">
+                  <i class="fa fa-chevron-left"></i> C语言的一些记录
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/08/27/haskell-hw/" rel="next" title="haskell-hw">
+                  haskell-hw <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+      
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      
+
+      
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liulx</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+      
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.0/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/@next-theme/pjax@0.4.0/pjax.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '.page-configurations',
+    '.main-inner',
+    '.post-toc-wrap',
+    '.languages',
+    '.pjax'
+  ],
+  analytics: false,
+  cacheBust: false,
+  scrollRestoration: false,
+  scrollTo: !CONFIG.bookmark.enable
+});
+
+document.addEventListener('pjax:success', () => {
+  pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  const hasTOC = document.querySelector('.post-toc');
+  document.querySelector('.sidebar-inner').classList.toggle('sidebar-nav-active', hasTOC);
+  document.querySelector(hasTOC ? '.sidebar-nav-toc' : '.sidebar-nav-overview').click();
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="pjax">
+  
+
+  
+
+  
+<script>
+NexT.utils.loadComments('#valine-comments', () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', () => {
+    new Valine(Object.assign({
+      el  : '#valine-comments',
+      path: location.pathname,
+    }, {"enable":true,"appId":"9hqrMBm5CSF4MzBqIOmG2yjR-gzGzoHsz","appKey":"cY7tkRBoQeYdaspntsGJazu2","placeholder":"Just go go","avatar":"mm","meta":["nick","mail"],"pageSize":10,"lang":null,"visitor":false,"comment_count":true,"recordIP":true,"serverURLs":null,"enableQQ":true,"requiredFields":["nick"]}
+    ));
+  }, window.Valine);
+});
+</script>
+
+    </div>
+  <!-- 引用依赖 -->
+          <link rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+          <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+          <script src="https://cdn.jsdelivr.net/npm/meting@1.2.0/dist/Meting.min.js"></script>
+
+          <!-- 我使用的APlayer本体 -->
+          <div class="aplayer"
+            data-id="4866586492"
+            data-server="netease"
+            data-type="playlist"
+            data-fixed="true"
+            data-autoplay="true"
+            data-order="random"
+            data-volume="0.55"
+            data-theme="#cc543a"
+            data-preload="auto" >
+            </div>
+          <!--如果将本体放在body里面导致页面加载出现问题，请尝试放到body体后面-->
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"left","width":200,"height":400},"mobile":{"show":true},"react":{"opacity":0.7},"log":false});</script></body>
+<script type="text/javascript" src="/js/fire.js"></script>
+
+</html>
