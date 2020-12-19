@@ -220,7 +220,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-count">14</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -276,6 +276,89 @@
       
 
       
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://github.com/liulx20/2020/12/19/%E5%A4%9A%E7%BB%88%E7%AB%AF%E6%93%8D%E4%BD%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="liulx">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="liulx">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/12/19/%E5%A4%9A%E7%BB%88%E7%AB%AF%E6%93%8D%E4%BD%9C/" class="post-title-link" itemprop="url">多终端操作</a>
+        </h2>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-12-19 14:49:02 / 修改时间：15:02:05" itemprop="dateCreated datePublished" datetime="2020-12-19T14:49:02+08:00">2020-12-19</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/12/19/%E5%A4%9A%E7%BB%88%E7%AB%AF%E6%93%8D%E4%BD%9C/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/12/19/%E5%A4%9A%E7%BB%88%E7%AB%AF%E6%93%8D%E4%BD%9C/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="将博客内容上传github"><a href="#将博客内容上传github" class="headerlink" title="将博客内容上传github"></a>将博客内容上传github</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br><span class="line">git add .</span><br><span class="line">git commit -m &quot;blog source&quot;</span><br><span class="line">// 新建hexo分支</span><br><span class="line">git branch hexo</span><br><span class="line">// 切换分支</span><br><span class="line">git checkout hexo</span><br><span class="line">// 将本地与Github项目对接</span><br><span class="line">git remote add origin git@github.com:liulx20/liulx20.github.io.git</span><br><span class="line">git push origin hexo</span><br></pre></td></tr></table></figure>
+<ul>
+<li>tips: theme/next似乎传不上去,直接拷到新终端==</li>
+</ul>
+<h2 id="新终端完成clone-更新"><a href="#新终端完成clone-更新" class="headerlink" title="新终端完成clone,更新"></a>新终端完成clone,更新</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">git clone -b hexo git@github.com:liulx20/liulx20.github.io.git  </span><br><span class="line">// 新建一个.md文件,并编辑完成自己的博客内容</span><br><span class="line">hexo new post &quot;new blog name&quot;</span><br><span class="line">// 经测试每次只要更新source中的文件到Github中即可,因为只是新建了一篇新博客</span><br><span class="line">git add source</span><br><span class="line">git commit -m &quot;XX&quot;</span><br><span class="line">// 推送到远程仓库,更新hexo分支</span><br><span class="line">git push origin hexo</span><br><span class="line">hexo g -d</span><br></pre></td></tr></table></figure>
+<ul>
+<li>若出现fatal: in unpopulated submodule ‘deploy_git’<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rm -rf .deploy_git</span><br><span class="line">hexo g &amp;&amp; hexo d</span><br></pre></td></tr></table></figure>
+<h2 id="不同终端更新"><a href="#不同终端更新" class="headerlink" title="不同终端更新"></a>不同终端更新</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// 先pull完成本地与远端的融合</span><br><span class="line">git pull origin hexo</span><br><span class="line">hexo new post &quot; new blog name&quot;</span><br><span class="line">git add source</span><br><span class="line">git commit -m &quot;XX&quot;</span><br><span class="line">git push origin hexo</span><br><span class="line">hexo g -d</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -1050,95 +1133,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/08/06/SVD/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://github.com/liulx20/2020/08/05/jvm/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="liulx">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="liulx">
-    </span>
-
-    
-    
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/08/05/jvm/" class="post-title-link" itemprop="url">JVM笔记</a>
-        </h2>
-
-        <div class="post-meta">
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-08-05 16:34:21" itemprop="dateCreated datePublished" datetime="2020-08-05T16:34:21+08:00">2020-08-05</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-08-06 14:48:36" itemprop="dateModified" datetime="2020-08-06T14:48:36+08:00">2020-08-06</time>
-              </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2020/08/05/jvm/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/08/05/jvm/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <img src="/2020/08/05/jvm/jvmdata.png" class="">
-<p>JVM 是 Java 的核心和基础，在 Java 编译器和 os 平台之间的虚拟处理器。它是一种基于下层的操作系统和硬件平台并利用软件方法来实现的抽象的计算机，可以在上面执行 Java 的字节码程序。<br>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/08/05/jvm/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
