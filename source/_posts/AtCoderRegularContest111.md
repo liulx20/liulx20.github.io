@@ -1,12 +1,13 @@
 ---
-title: AtCoderRegularContest111
+title: AtCoder Regular Contest 111
 date: 2021-01-09 22:20:47
 tags: 题解
 ---
-# AtCoder Regular Contest 111
+# [AtCoder Regular Contest 111](https://atcoder.jp/contests/arc111/tasks)
 
 {% asset_img new-year-5798330__340.png %}
 
+感觉BC写得有点复杂
 ## A - Simple Math 2
 <!--More-->
 
