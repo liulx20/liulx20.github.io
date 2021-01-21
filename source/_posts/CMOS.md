@@ -16,6 +16,8 @@ CMOS 值一次访问一个字节，每个字节可以单独寻址。
 
 每个CMOS地址被称为一个寄存器
 
+<!--More-->
+
 The first 14 CMOS registers access and control the Real-Time Clock,其他的没用。
 
 ## Non-Maskable Interrupts
