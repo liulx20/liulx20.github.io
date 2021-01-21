@@ -8,6 +8,7 @@
 <p>CMOS的作用是在计算机关机时为BIOS保存50 (or 114) bytes of “Setup” information ，因为它有一个单独的电池。</p>
 <p>CMOS 值一次访问一个字节，每个字节可以单独寻址。</p>
 <p>每个CMOS地址被称为一个寄存器</p>
+<a id="more"></a>
 <p>The first 14 CMOS registers access and control the Real-Time Clock,其他的没用。</p>
 <h2 id="Non-Maskable-Interrupts"><a href="#Non-Maskable-Interrupts" class="headerlink" title="Non-Maskable Interrupts"></a>Non-Maskable Interrupts</h2><p>不可屏蔽的中断</p>
 <p>NMI is meant to communicate a “panic” status from the hardware to the CPU in a way that the CPU cannot ignore. It is typically used to signal memory errors.</p>
