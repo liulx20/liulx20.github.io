@@ -851,7 +851,7 @@ This means that literals like 5 can be used as Ints, Integers, Doubles, or any o
 <p>所以$\lambda - \overline{\lambda} = 0$，即$\lambda$为实数.</p>
 <p>设$\lambda$为$A^{T}A$的特征值，有</p>
 <p>$\left | AX \right |^{2} = X^{T}A^{T}AX = \lambda X^{T}X = \lambda \left \| X\right \|^{2}$.</p>
-<p>所以$\lambda = \frac{\left \| AX\right \|^{2}}{\left \| X\right \|^{2}} \geq 0$.</p>
+<p>所以$\lambda = \frac{\left | AX\right |^{2}}{\left | X\right|^{2}} \geq 0$.</p>
 <hr>
 <p>$A \in \mathbb{R}^{m\times n}$ 则$A$存在奇异值分解：</p>
 <p>$A = U\Sigma V^{T}$,其中$U$是$m$阶正交矩阵,$V$是$n$阶正交矩阵,$\Sigma$是$m\times n$矩形对角矩阵,其对角线元素非负,且按降序排列.</p>
