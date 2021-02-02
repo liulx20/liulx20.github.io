@@ -19,6 +19,8 @@ Save this in a file named ‘makefile’. Then navigate to the directory and run
 $ make hello
 ```
 
+<!-- More -->
+
 * Makefile syntax
 
 ```makefile
