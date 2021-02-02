@@ -7,6 +7,7 @@
 <figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line"><span class="section">hello:</span></span><br><span class="line">	echo <span class="string">&quot;hello world&quot;</span></span><br></pre></td></tr></table></figure>
 <p>Save this in a file named ‘makefile’. Then navigate to the directory and run the command:</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ make hello</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
 <ul>
 <li>Makefile syntax</li>
 </ul>
