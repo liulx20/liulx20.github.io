@@ -17,10 +17,10 @@ int main()
 }
 ```
 
-```
+```bash
 valgrind --leak-check=full --show-reachable=yes --trace-children=yes   ./test
 ```
-```cpp
+```bash
 ==333== Memcheck, a memory error detector
 ==333== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
 ==333== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
@@ -130,3 +130,12 @@ signal(SIGCONT,handler);
 * 访问临界数据必须加互斥锁
 * 指针 + 1产生的偏移量取决于指针类型
 * sizeof(size_t) == 8
+
+### 杂项
+
+Q:使用#ifndef在头文件中定义全局变量，然后两个.c文件分别访问(#include)，编译时就会出现multiple definition的提示，但是已经使用了条件编译，理论上第二次应该跳过定义过程，这是为什么呢？
+
+A:这类条件编译是为了防止同一个.c文件包含同一个头文件多次。
+每一个.c文件最后都会编译生成对应的.obj文件的。所以你的两个.c文件对应的两个.obj文件都会有你说的那个全局变量的，链接的时候，链接器就会发现有定义了两个同名变量，于是就报multiple definition错误。
+正确的做法是：是其中一个.c文件定义这个变量，在另外一个.c文件用extern声明,确保只定义一次，而声明则可以多次
+因为头文件很容易被不同的.c文件include，生成多个.obj目标文件，因此正确的做法就是不要在头文件中定义全局变量，而应该在.c/.cpp文件中定义
