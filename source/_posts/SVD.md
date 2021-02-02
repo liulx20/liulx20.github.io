@@ -45,7 +45,7 @@ $\overline{X}^{T}AX = \overline{X}^{T}\overline{A}^{T}X = \overline{AX}^{T}X = (
 
 $\left \| AX \right \|^{2} = X^{T}A^{T}AX = \lambda X^{T}X = \lambda \left \\| X\right \\|^{2}$.
 
-所以$\lambda = \frac{\left \\| AX\right \\|^{2}}{\left \\| X\right \\|^{2}} \geq 0$.
+所以$\lambda = \frac{\left \| AX\right \|^{2}}{\left \| X\right\|^{2}} \geq 0$.
 
 ---
 
