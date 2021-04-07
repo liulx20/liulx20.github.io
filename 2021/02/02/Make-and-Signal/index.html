@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"github.com","root":"/","scheme":"Pisces","version":"8.0.0-rc.5","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"path":"search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false}};
+  </script>
+
+  <meta name="description" content="Makehello world in make 12hello:	echo &quot;hello world&quot; Save this in a file named ‘makefile’. Then navigate to the directory and run the command: 1$ make hello">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Make and Signal">
+<meta property="og:url" content="https://github.com/liulx20/2021/02/02/Make-and-Signal/index.html">
+<meta property="og:site_name" content="liulx">
+<meta property="og:description" content="Makehello world in make 12hello:	echo &quot;hello world&quot; Save this in a file named ‘makefile’. Then navigate to the directory and run the command: 1$ make hello">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-02-02T12:31:28.000Z">
+<meta property="article:modified_time" content="2021-04-07T05:55:27.414Z">
+<meta property="article:author" content="liulx">
+<meta property="article:tag" content="os">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://github.com/liulx20/2021/02/02/Make-and-Signal/">
+
+
+<script data-pjax class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Make and Signal | liulx</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">liulx</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">雪沫乳花浮午盏,蓼茸蒿笋试春盘。人间有味是清欢。</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>留言板</a>
+
+  </li>
+        <li class="menu-item menu-item-dongtai">
+
+    <a href="/dongtai/" rel="section"><i class="fa fa-th fa-fw"></i>动态</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container">
+  <div class="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Make"><span class="nav-number">1.</span> <span class="nav-text">Make</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#implicit-variables"><span class="nav-number">1.1.</span> <span class="nav-text">implicit variables</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pass-command-line-arguments"><span class="nav-number">1.2.</span> <span class="nav-text">pass command line arguments</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Signals"><span class="nav-number">2.</span> <span class="nav-text">Signals</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Conditions-for-signals"><span class="nav-number">2.0.1.</span> <span class="nav-text">Conditions for signals</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#how-to-handle-signal"><span class="nav-number">2.1.</span> <span class="nav-text">how to handle signal</span></a></li></ol></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="liulx"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">liulx</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/liulx20" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;liulx20"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:liulex@buaa.edu.cn" title="E-Mail → mailto:liulex@buaa.edu.cn" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://dreamfarer.github.io/" title="https:&#x2F;&#x2F;dreamfarer.github.io" rel="noopener" target="_blank">Dream爷</a>
+        </li>
+    </ul>
+  </div>
+
+      </section>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+      
+
+      
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://github.com/liulx20/2021/02/02/Make-and-Signal/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="liulx">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="liulx">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Make and Signal
+        </h1>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-02-02 20:31:28" itemprop="dateCreated datePublished" datetime="2021-02-02T20:31:28+08:00">2021-02-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-04-07 13:55:27" itemprop="dateModified" datetime="2021-04-07T13:55:27+08:00">2021-04-07</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="far fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/02/02/Make-and-Signal/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/02/02/Make-and-Signal/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="Make"><a href="#Make" class="headerlink" title="Make"></a>Make</h2><p>hello world in make</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">hello:</span></span><br><span class="line">	echo <span class="string">&quot;hello world&quot;</span></span><br></pre></td></tr></table></figure>
+<p>Save this in a file named ‘makefile’. Then navigate to the directory and run the command:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ make hello</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<ul>
+<li>Makefile syntax</li>
+</ul>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">target: prerequisites</span></span><br><span class="line">&lt;TAB&gt; recipe</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Make command in shell:</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ make target</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Other targets can be used as prerequisites of a target</li>
+</ul>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">target: other_target target.c</span></span><br><span class="line"> Recipe_to_create_target</span><br><span class="line"><span class="section">other_target: other_target.c</span></span><br><span class="line"> Recipe_to_create_other_target</span><br></pre></td></tr></table></figure>
+<p>example:</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">code_file1.o: code_file1.c</span></span><br><span class="line">	gcc -c code_file1.c -o code_file1.o</span><br><span class="line"><span class="section">code_file2.o: code_file2.c</span></span><br><span class="line">	gcc -c code_file2.c -o code_file2.o</span><br><span class="line"><span class="section">my_app: code_file1.o code_file2.o</span></span><br><span class="line">	gcc -o my_app code_file1.o code_file2.o</span><br><span class="line"><span class="section">clean:</span></span><br><span class="line">	rm *.o my_app</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>When make is ran, it looks for the <strong>target</strong> file in the directory. If the target is not found, </p>
+<p>recipe to generate target is ran with all the prerequisites.</p>
+</li>
+<li><p>If <strong>target</strong> is found, it checks whether the dependencies have changed since last time. If </p>
+<p>so, changed dependencies are run according to the configuration and the target is </p>
+<p>generated.</p>
+</li>
+<li><p><strong>target</strong> can be different from output filename. In this case, make won’t be able to find the </p>
+</li>
+</ul>
+<p>file and the file will be regenerated regardless of no changes. (Don’t do this when</p>
+<p>compiling)</p>
+<ul>
+<li><p>By default the first target of the makefile is considered as the default target. If you run </p>
+<p>make with no arguments, the first target is run.</p>
+</li>
+<li><p>By convention, the first target is set as <strong>all</strong>. It should have the recipe for the default </p>
+<p>behaviour you expect from make.</p>
+</li>
+<li><p>Using <strong>.DEFAULT_GOAL</strong> can override the default behaviour of make</p>
+</li>
+</ul>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#same behaviour if we use .DEFAULT_GOAL=my_app</span></span><br><span class="line"><span class="section">all:my_app </span></span><br><span class="line"><span class="section">code_file1.o: code_file1.c</span></span><br><span class="line">	gcc -c code_file1.c -o code_file1.o</span><br><span class="line"><span class="section">code_file2.o: code_file2.c</span></span><br><span class="line">	gcc -c code_file2.c -o code_file2.o</span><br><span class="line"><span class="section">my_app: code_file1.o code_file2.o</span></span><br><span class="line">	gcc -o my_app code_file1.o code_file2.o</span><br><span class="line"><span class="section">clean:</span></span><br><span class="line">	rm *.o my_app</span><br></pre></td></tr></table></figure>
+<p><strong>Phony target</strong> is a target which is not the name of a file. Say we have a target named ‘clean’. If we also have a file named clean, make will not run the recipe for this target.</p>
+<p>We can indicate such targets with <strong>.PHONY</strong> and make will run it regardless of a file.</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"><span class="meta-keyword">.PHONY</span>: clean</span></span><br><span class="line"><span class="section">clean:</span></span><br><span class="line">	rm *.o my_app</span><br></pre></td></tr></table></figure>
+<p>You can define variables in makefile:</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">OBJECTS=code_file1.o code_file2.o</span><br><span class="line"><span class="section">my_app: <span class="variable">$(OBJECTS)</span></span></span><br><span class="line">	gcc -o my_app <span class="variable">$(OBJECTS)</span></span><br></pre></td></tr></table></figure>
+<p>You can use wildcards as well.</p>
+<h3 id="implicit-variables"><a href="#implicit-variables" class="headerlink" title="implicit variables"></a>implicit variables</h3><p>There are a set of implicit variables defined in make:</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CFLAGS</span><br><span class="line">CC</span><br><span class="line">CXX</span><br><span class="line">and etc..</span><br></pre></td></tr></table></figure>
+<p>These variables can be referred without declaring them and the default value will be passed. If needed they can be overridden by declaring them as a regular variable.</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">code_file1.o: code_file1.c</span></span><br><span class="line">	<span class="variable">$(CC)</span> <span class="variable">$(CFLAGS)</span> -c code_file1.c -o code_file1.o</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://www.gnu.org/software/make/manual/html_node/Implicit-Variables.html">List of implicit variables</a></p>
+<h3 id="pass-command-line-arguments"><a href="#pass-command-line-arguments" class="headerlink" title="pass command line arguments"></a>pass command line arguments</h3><p>We can pass command line arguments when using make to alter the compilation.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//main.c</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;MY_VAL = %d\n&quot;</span>, MY_VAL);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">main:main.c</span></span><br><span class="line">	gcc <span class="variable">$(CFLAGS)</span> main.c -o main</span><br><span class="line"><span class="section">clean:</span></span><br><span class="line">	rm main</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ make CFLAGS=-DMY_VAL=3</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">output:</span><br><span class="line">MY_VAL = 3</span><br></pre></td></tr></table></figure>
+<p>如何在程序中确定make指令有没有指定MY_VAL</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> MY_VAL</span></span><br><span class="line">...</span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line">...</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>It won’t compile without the argument.</li>
+</ul>
+<h2 id="Signals"><a href="#Signals" class="headerlink" title="Signals"></a>Signals</h2><p>Signals are events created by UNIX and Linux systems and are a method for the OS to communicate with a process. They can be acted upon or ignored.</p>
+<ul>
+<li>A method of interprocess communication</li>
+<li>Are the result of some condition</li>
+<li>Allow the process receiving the signal to take an action through a signal handler</li>
+</ul>
+<p>Provide a process a notification of an event.</p>
+<ul>
+<li><p>Event gains attention of the OS.</p>
+</li>
+<li><p>OS stops the application process immediately, sending it a signal.</p>
+</li>
+<li><p>Signal handler is executed.</p>
+</li>
+<li><p>Application process resumes where it left of.</p>
+</li>
+</ul>
+<p><strong>Raise</strong></p>
+<p>The generation of a signal upon a process.</p>
+<p><strong>Catch</strong></p>
+<p>The reception of a signal by that process.</p>
+<p><strong>Handle</strong></p>
+<p>How the program reacts to the signal.</p>
+<h4 id="Conditions-for-signals"><a href="#Conditions-for-signals" class="headerlink" title="Conditions for signals"></a>Conditions for signals</h4><ul>
+<li><p>Error conditions such as：</p>
+<p>Memory segment violations</p>
+<p>Floating-point processor errors</p>
+<p>Illegal instructions</p>
+</li>
+<li><p>Explicitly sent from one process to another as a method of Inter-process communication</p>
+<p>example:</p>
+</li>
+<li><p>Process makes illegal memory reference</p>
+<p>Event gains attention of the OS.</p>
+<p>OS stops application process immediately, sending it a SIGSEGV signal.</p>
+<p>Signal handler for SIGSEGV signal executes to completion.</p>
+<p>Default signal handler for SIGSEGV signal prints “Segmentation Fault” and exits process.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SIGINT Terminal interrupt</span><br><span class="line">SIGKILL <span class="keyword">Kill</span> process</span><br><span class="line">SIGSEGV Invalid <span class="keyword">memory</span> <span class="keyword">segment</span> <span class="keyword">access</span></span><br></pre></td></tr></table></figure></li>
+<li><p>Signals can be raised using a few different methods</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Keystrokes</span></span><br><span class="line"><span class="attribute">Commands</span></span><br><span class="line"><span class="attribute">System calls</span></span><br></pre></td></tr></table></figure></li>
+<li>Keystrokes</li>
+</ul>
+<p>​     <strong>CTRL + C</strong> -&gt; SIGINT</p>
+<p>​     Default handler exits process.</p>
+<p>​     <strong>CTRL + Z</strong> -&gt; SIGTSTP</p>
+<p>​     Default handler suspends process.(进程暂停)</p>
+<p>​     <strong>CTRL + \</strong> -&gt; SIGQUIT</p>
+<p>​     Default handler exits process</p>
+<ul>
+<li><p>Sending signals via command</p>
+<figure class="highlight qml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kill -<span class="keyword">signal</span><span class="string"> pid</span></span><br></pre></td></tr></table></figure>
+<p>Send a signal of type signal to the process with id pid.</p>
+<p>The kill command can send all signals</p>
+<p>e.g.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">kill</span> -2 1234</span><br><span class="line">$ <span class="built_in">kill</span> -INT 1234</span><br></pre></td></tr></table></figure></li>
+<li><p>System calls</p>
+<p><strong>kill()</strong></p>
+<p>Commands the OS to send a signal to the process, must have permission.</p>
+<p>Both processes must have the same user ID.(具有相同的用户id)</p>
+<p>Superuser can send signal to any process(超级用户可以向任何进程发送信号)</p>
+<p>==Return value==:</p>
+<p>Success: 0</p>
+<p>Error: -1 (errno is set appropriately)</p>
+<p>EINVAL if invalid</p>
+<p>EPERM if no permission</p>
+<p>ESRCH if specified process does not exist</p>
+<p><strong>raise()</strong></p>
+<p>Commands the OS to send a signal to current process</p>
+<p><strong>alarm()</strong></p>
+<p>Schedule a SIGALRM at some time in future.</p>
+<p>Processing delays and scheduling uncertainties.</p>
+<p>Value of 0 cancels any outstanding alarm request.</p>
+<p>Each process can have only one outstanding alarm.</p>
+<p>Calling alarm before signal is received will cause alarm to be rescheduled.</p>
+</li>
+</ul>
+<h3 id="how-to-handle-signal"><a href="#how-to-handle-signal" class="headerlink" title="how to handle signal"></a>how to handle signal</h3><p>  <strong>signal()</strong></p>
+  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;signal.h&gt;</span></span></span><br><span class="line">Void (*signal(<span class="keyword">int</span> sig, <span class="keyword">void</span> (*func)(<span class="keyword">int</span>)))(<span class="keyword">int</span>);</span><br></pre></td></tr></table></figure>
+<p>  signal() returns a function which is the previous value of the function set up to handle the signal.</p>
+<p>  OR one of these two special values:</p>
+<p>  SIG_IGN – Ignore the signal</p>
+<p>  SIG_DFL – Restore default behavior</p>
+  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;signal.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ouch</span><span class="params">(<span class="keyword">int</span> sig)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"> <span class="built_in">printf</span>(“OUCH – I got signal %d\n”, sig);</span><br><span class="line"> (<span class="keyword">void</span>) signal(SIGINT, SIG_DFL);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"> (<span class="keyword">void</span>) signal(SIGINT, ouch);</span><br><span class="line"> <span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line"> &#123;</span><br><span class="line"> <span class="built_in">printf</span>(“Hello World!\n”);</span><br><span class="line"> sleep(<span class="number">1</span>);</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>  <strong>Waiting for signal</strong></p>
+<p>  <strong>pause()</strong></p>
+  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">pause</span><span class="params">(<span class="keyword">void</span>)</span></span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>Causes program to suspend execution until a signal occurs.</p>
+</li>
+<li><p>When it receives a signal, any established handler is run and execution </p>
+<p>continues as normal.</p>
+</li>
+</ul>
+<p><strong>Re-entrant Functions</strong></p>
+<ul>
+<li><p>That can be interrupted in the middle of execution and then safely called again (“re-entered”) before its previous invocations complete execution.</p>
+</li>
+<li><p>Never call a non-reentrant function inside a signal handler, if the function was being ran the behaviour will be changed.</p>
+</li>
+<li><p>Example if a global was used as a temporary value, and gets overwritten in </p>
+<p>the signal handler</p>
+</li>
+</ul>
+<p><strong>Race conditions</strong></p>
+<ul>
+<li><p>A flaw in a program whereby the correctness of the program is critically </p>
+<p>dependent on the sequence or timing of other events</p>
+</li>
+<li><p>Example: a signal handler and function modifying the same value</p>
+</li>
+<li><p>Race conditions Example</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//deposit is running and is interrupted by a signal after copying savings to temp.</span></span><br><span class="line">savings = <span class="number">5000</span>, value = <span class="number">2000</span></span><br><span class="line"><span class="keyword">int</span> savings; <span class="comment">// 5000</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">deposit</span><span class="params">(<span class="keyword">int</span> val)</span> <span class="comment">// 2000</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="keyword">int</span> temp = savings;</span><br><span class="line">---- Signal</span><br><span class="line">temp += val;</span><br><span class="line">savings = temp;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">salary</span><span class="params">(<span class="keyword">int</span> sig)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">savings += <span class="number">5000</span>; <span class="comment">// 10000</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>POSIX Signal Handling</strong></p>
+</li>
+</ul>
+<p><strong>C90 standard</strong></p>
+<p>signal() and raise() functions</p>
+<p>Works across all systems (UNIX, Linux, Windows)</p>
+<p>But differently across some systems</p>
+<p>Blocked signals during handler execution</p>
+<p>Reinstall handler after every signal invocation</p>
+<p>Does not provide mechanism to block signals</p>
+<p><strong>POSIX standard</strong></p>
+<p>sigaction() and sigprocmask() functions:</p>
+<p>Works the same across all POSIX-compliant UNIX systems (Linux, Solaris etc) but…</p>
+<p>Do not work on non-UNIX systems (e.g. Windows)</p>
+<p>Provides mechanism to block signals in general</p>
+<p>sigprocmask() is not required to use sigaction()</p>
+<p><strong>sigaction()</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;signal.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sigaction</span><span class="params">(<span class="keyword">int</span> sig, <span class="keyword">const</span> struct sigaction *act, struct sigaction *oact)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>struct sigaction has at least</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> (*) (<span class="keyword">int</span>) sa_handler <span class="comment">// function, SIG_DFL, SIG_IGN</span></span><br><span class="line"><span class="keyword">sigset_t</span> sa_mask <span class="comment">// signals to block in sa_handler</span></span><br><span class="line"><span class="keyword">int</span> sa_flags <span class="comment">// signal action modifiers</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;signal.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="keyword">int</span> stop = <span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">handler</span><span class="params">(<span class="keyword">int</span> sig)</span> </span>&#123;</span><br><span class="line"> stop = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line"> <span class="class"><span class="keyword">struct</span> <span class="title">sigaction</span> <span class="title">sa</span>;</span></span><br><span class="line"> sa.sa_flags = <span class="number">0</span>; <span class="comment">// no flags</span></span><br><span class="line"> sigemptyset(&amp;sa.sa_mask); <span class="comment">// clear the mask so no signals are blocked</span></span><br><span class="line"> sa.sa_handler = handler; <span class="comment">// set function pointer for handler</span></span><br><span class="line"> sigaction(SIGINT, &amp;sa, <span class="literal">NULL</span>); <span class="comment">// set the handler</span></span><br><span class="line"> <span class="keyword">while</span>(!stop) &#123;</span><br><span class="line"> ;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>setjmp &amp; longjmp</strong></p>
+<ul>
+<li><p>setjmp and longjmp are two flow control subroutines.</p>
+</li>
+<li><p>When setjmp is called, it saves the program state at that point and returns 0.</p>
+</li>
+<li><p>When longjmp is called, it returns from the place where the jump is set with the given value.</p>
+</li>
+<li><p>If you are jumping from a signal handler, you might need to used <strong>sigsetjmp</strong> and <strong>siglongjmp</strong> instead setjmp and longjmp due to signal mask issues. </p>
+</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;setjmp.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"> jmp_buf env;</span><br><span class="line"> <span class="keyword">int</span> i;</span><br><span class="line"> i = setjmp(env);</span><br><span class="line"> <span class="built_in">printf</span>(<span class="string">&quot;i = %d\n&quot;</span>, i);</span><br><span class="line"> <span class="keyword">if</span> (i != <span class="number">0</span>)</span><br><span class="line"> &#123;</span><br><span class="line"> <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line"> &#125;</span><br><span class="line"> longjmp(env, <span class="number">1</span>);</span><br><span class="line"> <span class="built_in">printf</span>(<span class="string">&quot;I will never be printed!!\n&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>setjmp</code> 與 <code>longjmp</code> 函數可以讓程式往回跳到函數呼叫堆疊中的某個函數中，就像是一種跨函數的 <code>goto</code>。</p>
+<p>首先使用 <code>setjmp</code> 在程式中標示一個目標位置（跳躍的目的地），然後在程式要進行跳躍的地方呼叫 <code>longjmp</code> 即可。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;setjmp.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 儲存程式跳躍時所需之資訊</span></span><br><span class="line">jmp_buf jmpbuffer;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">fun_a</span><span class="params">(<span class="keyword">int</span> v)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">int</span> r = v * <span class="number">2</span> - <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">if</span> (r &lt; <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="comment">// 跳躍至 main 函數</span></span><br><span class="line">    longjmp(jmpbuffer, <span class="number">1</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> r;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">fun_b</span><span class="params">(<span class="keyword">int</span> v)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">int</span> r = fun_a(v) + <span class="number">6</span>;</span><br><span class="line">  <span class="keyword">if</span> (r &gt; <span class="number">10</span>) &#123;</span><br><span class="line">    <span class="comment">// 跳躍至 main 函數</span></span><br><span class="line">    longjmp(jmpbuffer, <span class="number">2</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> r;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">fun_c</span><span class="params">(<span class="keyword">int</span> v)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">int</span> r = fun_b(v) * <span class="number">5</span> - <span class="number">21</span>;</span><br><span class="line">  <span class="keyword">return</span> r;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="comment">// 設定跳躍目標位置</span></span><br><span class="line">  <span class="keyword">int</span> jmpVal = setjmp(jmpbuffer);</span><br><span class="line">  <span class="keyword">if</span> ( jmpVal == <span class="number">1</span> ) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;fun_a errorn&quot;</span>);</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> ( jmpVal == <span class="number">2</span> ) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;fun_b errorn&quot;</span>);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;  <span class="comment">// jmpVal == 0</span></span><br><span class="line">    <span class="keyword">int</span> x = <span class="number">-5</span>;</span><br><span class="line">    <span class="keyword">int</span> result = fun_c(x);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Result = %dn&quot;</span>, result);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>在 <code>setjmp</code> 設定跳躍目標位置時，會需要指定一個特殊的 <code>jmp_buf</code> 變數，用來儲存程式跳躍時所需之資訊，而在直接呼叫 <code>setjmp</code> 函數時其傳回值為 <code>0</code>，若是透過 <code>longjmp</code> 跳回這裡時，其傳回值就會是呼叫 <code>longjmp</code> 時所指定的值.</p>
+<ul>
+<li><p>What if you want to handle a signal multiple times in your program?</p>
+</li>
+<li><p>Do not use setjmp() and longjmp().</p>
+</li>
+<li><p>setjmp() does not save the signal mask.</p>
+</li>
+<li><p>The first SIGSEGV is added to the process’ signal mask to prevent subsequent signals interrupting the handler</p>
+</li>
+<li><p>When setjmp() pseudo returns, that mask is still there.</p>
+</li>
+<li><p>use sigsetjmp() and siglongjmp()</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sigsetjmp</span><span class="params">(sigjmp_buf env, <span class="keyword">int</span> savemask)</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">siglongjmp</span><span class="params">(sigjmp_buf env, <span class="keyword">int</span> val)</span></span></span><br></pre></td></tr></table></figure>
+<p>If savemask is set to 1, it saves the signal mask and siglongjmp restores the saved signal mask.</p>
+</li>
+<li><p>What is saved in sigjmp_buf?</p>
+<p><strong>Program Counter</strong></p>
+<p>Location in the code</p>
+<p><strong>Stack pointer</strong></p>
+<p>Locations of local variables</p>
+<p>Return address of called functions</p>
+<p><strong>Signal Mask</strong> </p>
+<p> If specified</p>
+<p><strong>Rest of environment (CPU state)</strong></p>
+<p>Calculations can continue from where they stopped</p>
+</li>
+<li><p>What is NOT saved in sigjmp_buf?</p>
+<p>Global variables</p>
+<p>Variables allocated dynamically</p>
+<p>Values of local variables</p>
+<p>Any other global resources</p>
+</li>
+<li><p>What does it mean by scanning the memory?</p>
+<p>Simply, you can try to access memory locations in a loop, using pointer dereferencing</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> *p = (<span class="keyword">char</span> *)<span class="number">0xff13abc1</span>;</span><br><span class="line"><span class="keyword">char</span> a = *p;</span><br></pre></td></tr></table></figure></li>
+<li><p>How do we know where the process’ address space starts and ends?</p>
+<p>0x0 to 0xffffffff (2^32-1)</p>
+<p>This is organized into pages of 4096 bytes (or other defined size in the assignment)</p>
+</li>
+<li><p>How do we check a page’s permissions?</p>
+<p>Try reading/writing to it and see what’s the response from OS.</p>
+<p>If two consecutive pages have the same permissions, they are part of the same “mem_region”</p>
+<p>When you try to write to memory, write the same content to avoid modifying it</p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/os/" rel="tag"><i class="fa fa-tag"></i> os</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/01/21/CMOS/" rel="prev" title="CMOS">
+                  <i class="fa fa-chevron-left"></i> CMOS
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+      
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      
+
+      
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liulx</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+      
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.0/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/@next-theme/pjax@0.4.0/pjax.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '.page-configurations',
+    '.main-inner',
+    '.post-toc-wrap',
+    '.languages',
+    '.pjax'
+  ],
+  analytics: false,
+  cacheBust: false,
+  scrollRestoration: false,
+  scrollTo: !CONFIG.bookmark.enable
+});
+
+document.addEventListener('pjax:success', () => {
+  pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  const hasTOC = document.querySelector('.post-toc');
+  document.querySelector('.sidebar-inner').classList.toggle('sidebar-nav-active', hasTOC);
+  document.querySelector(hasTOC ? '.sidebar-nav-toc' : '.sidebar-nav-overview').click();
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="pjax">
+  
+
+  
+
+  
+<script>
+NexT.utils.loadComments('#valine-comments', () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', () => {
+    new Valine(Object.assign({
+      el  : '#valine-comments',
+      path: location.pathname,
+    }, {"enable":true,"appId":"9hqrMBm5CSF4MzBqIOmG2yjR-gzGzoHsz","appKey":"cY7tkRBoQeYdaspntsGJazu2","placeholder":"Just go go","avatar":"mm","meta":["nick","mail"],"pageSize":10,"lang":null,"visitor":false,"comment_count":true,"recordIP":true,"serverURLs":null,"enableQQ":true,"requiredFields":["nick"]}
+    ));
+  }, window.Valine);
+});
+</script>
+
+    </div>
+  <!-- 引用依赖 -->
+          <link rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+          <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+          <script src="https://cdn.jsdelivr.net/npm/meting@1.2.0/dist/Meting.min.js"></script>
+
+          <!-- 我使用的APlayer本体 -->
+          <div class="aplayer"
+            data-id="4866586492"
+            data-server="netease"
+            data-type="playlist"
+            data-fixed="true"
+            data-autoplay="true"
+            data-order="random"
+            data-volume="0.55"
+            data-theme="#cc543a"
+            data-preload="auto" >
+            </div>
+          <!--如果将本体放在body里面导致页面加载出现问题，请尝试放到body体后面-->
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"left","width":200,"height":400},"mobile":{"show":true},"react":{"opacity":0.7},"log":false});</script></body>
+<script type="text/javascript" src="/js/fire.js"></script>
+
+</html>

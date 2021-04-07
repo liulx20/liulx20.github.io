@@ -1,6 +1,272 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Make and Signal</title>
+    <url>/2021/02/02/Make-and-Signal/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="Make"><a href="#Make" class="headerlink" title="Make"></a>Make</h2><p>hello world in make</p>
+<figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line"><span class="section">hello:</span></span><br><span class="line">	echo <span class="string">&quot;hello world&quot;</span></span><br></pre></td></tr></table></figure>
+<p>Save this in a file named ‘makefile’. Then navigate to the directory and run the command:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ make hello</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<ul>
+<li>Makefile syntax</li>
+</ul>
+<figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line"><span class="section">target: prerequisites</span></span><br><span class="line">&lt;TAB&gt; recipe</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Make command in shell:</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ make target</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Other targets can be used as prerequisites of a target</li>
+</ul>
+<figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line"><span class="section">target: other_target target.c</span></span><br><span class="line"> Recipe_to_create_target</span><br><span class="line"><span class="section">other_target: other_target.c</span></span><br><span class="line"> Recipe_to_create_other_target</span><br></pre></td></tr></table></figure>
+<p>example:</p>
+<figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line"><span class="section">code_file1.o: code_file1.c</span></span><br><span class="line">	gcc -c code_file1.c -o code_file1.o</span><br><span class="line"><span class="section">code_file2.o: code_file2.c</span></span><br><span class="line">	gcc -c code_file2.c -o code_file2.o</span><br><span class="line"><span class="section">my_app: code_file1.o code_file2.o</span></span><br><span class="line">	gcc -o my_app code_file1.o code_file2.o</span><br><span class="line"><span class="section">clean:</span></span><br><span class="line">	rm *.o my_app</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>When make is ran, it looks for the <strong>target</strong> file in the directory. If the target is not found, </p>
+<p>recipe to generate target is ran with all the prerequisites.</p>
+</li>
+<li><p>If <strong>target</strong> is found, it checks whether the dependencies have changed since last time. If </p>
+<p>so, changed dependencies are run according to the configuration and the target is </p>
+<p>generated.</p>
+</li>
+<li><p><strong>target</strong> can be different from output filename. In this case, make won’t be able to find the </p>
+</li>
+</ul>
+<p>file and the file will be regenerated regardless of no changes. (Don’t do this when</p>
+<p>compiling)</p>
+<ul>
+<li><p>By default the first target of the makefile is considered as the default target. If you run </p>
+<p>make with no arguments, the first target is run.</p>
+</li>
+<li><p>By convention, the first target is set as <strong>all</strong>. It should have the recipe for the default </p>
+<p>behaviour you expect from make.</p>
+</li>
+<li><p>Using <strong>.DEFAULT_GOAL</strong> can override the default behaviour of make</p>
+</li>
+</ul>
+<figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line"><span class="comment">#same behaviour if we use .DEFAULT_GOAL=my_app</span></span><br><span class="line"><span class="section">all:my_app </span></span><br><span class="line"><span class="section">code_file1.o: code_file1.c</span></span><br><span class="line">	gcc -c code_file1.c -o code_file1.o</span><br><span class="line"><span class="section">code_file2.o: code_file2.c</span></span><br><span class="line">	gcc -c code_file2.c -o code_file2.o</span><br><span class="line"><span class="section">my_app: code_file1.o code_file2.o</span></span><br><span class="line">	gcc -o my_app code_file1.o code_file2.o</span><br><span class="line"><span class="section">clean:</span></span><br><span class="line">	rm *.o my_app</span><br></pre></td></tr></table></figure>
+<p><strong>Phony target</strong> is a target which is not the name of a file. Say we have a target named ‘clean’. If we also have a file named clean, make will not run the recipe for this target.</p>
+<p>We can indicate such targets with <strong>.PHONY</strong> and make will run it regardless of a file.</p>
+<figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line"><span class="meta"><span class="meta-keyword">.PHONY</span>: clean</span></span><br><span class="line"><span class="section">clean:</span></span><br><span class="line">	rm *.o my_app</span><br></pre></td></tr></table></figure>
+<p>You can define variables in makefile:</p>
+<figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line">OBJECTS=code_file1.o code_file2.o</span><br><span class="line"><span class="section">my_app: <span class="variable">$(OBJECTS)</span></span></span><br><span class="line">	gcc -o my_app <span class="variable">$(OBJECTS)</span></span><br></pre></td></tr></table></figure>
+<p>You can use wildcards as well.</p>
+<h3 id="implicit-variables"><a href="#implicit-variables" class="headerlink" title="implicit variables"></a>implicit variables</h3><p>There are a set of implicit variables defined in make:</p>
+<figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line">CFLAGS</span><br><span class="line">CC</span><br><span class="line">CXX</span><br><span class="line">and etc..</span><br></pre></td></tr></table></figure>
+<p>These variables can be referred without declaring them and the default value will be passed. If needed they can be overridden by declaring them as a regular variable.</p>
+<figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line"><span class="section">code_file1.o: code_file1.c</span></span><br><span class="line">	<span class="variable">$(CC)</span> <span class="variable">$(CFLAGS)</span> -c code_file1.c -o code_file1.o</span><br></pre></td></tr></table></figure>
+<p><a href="https://www.gnu.org/software/make/manual/html_node/Implicit-Variables.html">List of implicit variables</a></p>
+<h3 id="pass-command-line-arguments"><a href="#pass-command-line-arguments" class="headerlink" title="pass command line arguments"></a>pass command line arguments</h3><p>We can pass command line arguments when using make to alter the compilation.</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">//main.c</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;MY_VAL = %d\n&quot;</span>, MY_VAL);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line"><span class="section">main:main.c</span></span><br><span class="line">	gcc <span class="variable">$(CFLAGS)</span> main.c -o main</span><br><span class="line"><span class="section">clean:</span></span><br><span class="line">	rm main</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ make CFLAGS=-DMY_VAL=3</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">output:</span><br><span class="line">MY_VAL = 3</span><br></pre></td></tr></table></figure>
+<p>如何在程序中确定make指令有没有指定MY_VAL</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> MY_VAL</span></span><br><span class="line">...</span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line">...</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>It won’t compile without the argument.</li>
+</ul>
+<h2 id="Signals"><a href="#Signals" class="headerlink" title="Signals"></a>Signals</h2><p>Signals are events created by UNIX and Linux systems and are a method for the OS to communicate with a process. They can be acted upon or ignored.</p>
+<ul>
+<li>A method of interprocess communication</li>
+<li>Are the result of some condition</li>
+<li>Allow the process receiving the signal to take an action through a signal handler</li>
+</ul>
+<p>Provide a process a notification of an event.</p>
+<ul>
+<li><p>Event gains attention of the OS.</p>
+</li>
+<li><p>OS stops the application process immediately, sending it a signal.</p>
+</li>
+<li><p>Signal handler is executed.</p>
+</li>
+<li><p>Application process resumes where it left of.</p>
+</li>
+</ul>
+<p><strong>Raise</strong></p>
+<p>The generation of a signal upon a process.</p>
+<p><strong>Catch</strong></p>
+<p>The reception of a signal by that process.</p>
+<p><strong>Handle</strong></p>
+<p>How the program reacts to the signal.</p>
+<h4 id="Conditions-for-signals"><a href="#Conditions-for-signals" class="headerlink" title="Conditions for signals"></a>Conditions for signals</h4><ul>
+<li><p>Error conditions such as：</p>
+<p>Memory segment violations</p>
+<p>Floating-point processor errors</p>
+<p>Illegal instructions</p>
+</li>
+<li><p>Explicitly sent from one process to another as a method of Inter-process communication</p>
+<p>example:</p>
+</li>
+<li><p>Process makes illegal memory reference</p>
+<p>Event gains attention of the OS.</p>
+<p>OS stops application process immediately, sending it a SIGSEGV signal.</p>
+<p>Signal handler for SIGSEGV signal executes to completion.</p>
+<p>Default signal handler for SIGSEGV signal prints “Segmentation Fault” and exits process.</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">SIGINT Terminal interrupt</span><br><span class="line">SIGKILL <span class="keyword">Kill</span> process</span><br><span class="line">SIGSEGV Invalid <span class="keyword">memory</span> <span class="keyword">segment</span> <span class="keyword">access</span></span><br></pre></td></tr></table></figure></li>
+<li><p>Signals can be raised using a few different methods</p>
+<figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">Keystrokes</span></span><br><span class="line"><span class="attribute">Commands</span></span><br><span class="line"><span class="attribute">System calls</span></span><br></pre></td></tr></table></figure></li>
+<li>Keystrokes</li>
+</ul>
+<p>​     <strong>CTRL + C</strong> -&gt; SIGINT</p>
+<p>​     Default handler exits process.</p>
+<p>​     <strong>CTRL + Z</strong> -&gt; SIGTSTP</p>
+<p>​     Default handler suspends process.(进程暂停)</p>
+<p>​     <strong>CTRL + \</strong> -&gt; SIGQUIT</p>
+<p>​     Default handler exits process</p>
+<ul>
+<li><p>Sending signals via command</p>
+<figure class="highlight qml"><table><tr><td class="code"><pre><span class="line">kill -<span class="keyword">signal</span><span class="string"> pid</span></span><br></pre></td></tr></table></figure>
+<p>Send a signal of type signal to the process with id pid.</p>
+<p>The kill command can send all signals</p>
+<p>e.g.</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ <span class="built_in">kill</span> -2 1234</span><br><span class="line">$ <span class="built_in">kill</span> -INT 1234</span><br></pre></td></tr></table></figure></li>
+<li><p>System calls</p>
+<p><strong>kill()</strong></p>
+<p>Commands the OS to send a signal to the process, must have permission.</p>
+<p>Both processes must have the same user ID.(具有相同的用户id)</p>
+<p>Superuser can send signal to any process(超级用户可以向任何进程发送信号)</p>
+<p>==Return value==:</p>
+<p>Success: 0</p>
+<p>Error: -1 (errno is set appropriately)</p>
+<p>EINVAL if invalid</p>
+<p>EPERM if no permission</p>
+<p>ESRCH if specified process does not exist</p>
+<p><strong>raise()</strong></p>
+<p>Commands the OS to send a signal to current process</p>
+<p><strong>alarm()</strong></p>
+<p>Schedule a SIGALRM at some time in future.</p>
+<p>Processing delays and scheduling uncertainties.</p>
+<p>Value of 0 cancels any outstanding alarm request.</p>
+<p>Each process can have only one outstanding alarm.</p>
+<p>Calling alarm before signal is received will cause alarm to be rescheduled.</p>
+</li>
+</ul>
+<h3 id="how-to-handle-signal"><a href="#how-to-handle-signal" class="headerlink" title="how to handle signal"></a>how to handle signal</h3><p>  <strong>signal()</strong></p>
+  <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;signal.h&gt;</span></span></span><br><span class="line">Void (*signal(<span class="keyword">int</span> sig, <span class="keyword">void</span> (*func)(<span class="keyword">int</span>)))(<span class="keyword">int</span>);</span><br></pre></td></tr></table></figure>
+<p>  signal() returns a function which is the previous value of the function set up to handle the signal.</p>
+<p>  OR one of these two special values:</p>
+<p>  SIG_IGN – Ignore the signal</p>
+<p>  SIG_DFL – Restore default behavior</p>
+  <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;signal.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ouch</span><span class="params">(<span class="keyword">int</span> sig)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"> <span class="built_in">printf</span>(“OUCH – I got signal %d\n”, sig);</span><br><span class="line"> (<span class="keyword">void</span>) signal(SIGINT, SIG_DFL);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"> (<span class="keyword">void</span>) signal(SIGINT, ouch);</span><br><span class="line"> <span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line"> &#123;</span><br><span class="line"> <span class="built_in">printf</span>(“Hello World!\n”);</span><br><span class="line"> sleep(<span class="number">1</span>);</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>  <strong>Waiting for signal</strong></p>
+<p>  <strong>pause()</strong></p>
+  <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">pause</span><span class="params">(<span class="keyword">void</span>)</span></span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>Causes program to suspend execution until a signal occurs.</p>
+</li>
+<li><p>When it receives a signal, any established handler is run and execution </p>
+<p>continues as normal.</p>
+</li>
+</ul>
+<p><strong>Re-entrant Functions</strong></p>
+<ul>
+<li><p>That can be interrupted in the middle of execution and then safely called again (“re-entered”) before its previous invocations complete execution.</p>
+</li>
+<li><p>Never call a non-reentrant function inside a signal handler, if the function was being ran the behaviour will be changed.</p>
+</li>
+<li><p>Example if a global was used as a temporary value, and gets overwritten in </p>
+<p>the signal handler</p>
+</li>
+</ul>
+<p><strong>Race conditions</strong></p>
+<ul>
+<li><p>A flaw in a program whereby the correctness of the program is critically </p>
+<p>dependent on the sequence or timing of other events</p>
+</li>
+<li><p>Example: a signal handler and function modifying the same value</p>
+</li>
+<li><p>Race conditions Example</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">//deposit is running and is interrupted by a signal after copying savings to temp.</span></span><br><span class="line">savings = <span class="number">5000</span>, value = <span class="number">2000</span></span><br><span class="line"><span class="keyword">int</span> savings; <span class="comment">// 5000</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">deposit</span><span class="params">(<span class="keyword">int</span> val)</span> <span class="comment">// 2000</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="keyword">int</span> temp = savings;</span><br><span class="line">---- Signal</span><br><span class="line">temp += val;</span><br><span class="line">savings = temp;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">salary</span><span class="params">(<span class="keyword">int</span> sig)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">savings += <span class="number">5000</span>; <span class="comment">// 10000</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>POSIX Signal Handling</strong></p>
+</li>
+</ul>
+<p><strong>C90 standard</strong></p>
+<p>signal() and raise() functions</p>
+<p>Works across all systems (UNIX, Linux, Windows)</p>
+<p>But differently across some systems</p>
+<p>Blocked signals during handler execution</p>
+<p>Reinstall handler after every signal invocation</p>
+<p>Does not provide mechanism to block signals</p>
+<p><strong>POSIX standard</strong></p>
+<p>sigaction() and sigprocmask() functions:</p>
+<p>Works the same across all POSIX-compliant UNIX systems (Linux, Solaris etc) but…</p>
+<p>Do not work on non-UNIX systems (e.g. Windows)</p>
+<p>Provides mechanism to block signals in general</p>
+<p>sigprocmask() is not required to use sigaction()</p>
+<p><strong>sigaction()</strong></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;signal.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sigaction</span><span class="params">(<span class="keyword">int</span> sig, <span class="keyword">const</span> struct sigaction *act, struct sigaction *oact)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>struct sigaction has at least</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">void</span> (*) (<span class="keyword">int</span>) sa_handler <span class="comment">// function, SIG_DFL, SIG_IGN</span></span><br><span class="line"><span class="keyword">sigset_t</span> sa_mask <span class="comment">// signals to block in sa_handler</span></span><br><span class="line"><span class="keyword">int</span> sa_flags <span class="comment">// signal action modifiers</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;signal.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="keyword">int</span> stop = <span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">handler</span><span class="params">(<span class="keyword">int</span> sig)</span> </span>&#123;</span><br><span class="line"> stop = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line"> <span class="class"><span class="keyword">struct</span> <span class="title">sigaction</span> <span class="title">sa</span>;</span></span><br><span class="line"> sa.sa_flags = <span class="number">0</span>; <span class="comment">// no flags</span></span><br><span class="line"> sigemptyset(&amp;sa.sa_mask); <span class="comment">// clear the mask so no signals are blocked</span></span><br><span class="line"> sa.sa_handler = handler; <span class="comment">// set function pointer for handler</span></span><br><span class="line"> sigaction(SIGINT, &amp;sa, <span class="literal">NULL</span>); <span class="comment">// set the handler</span></span><br><span class="line"> <span class="keyword">while</span>(!stop) &#123;</span><br><span class="line"> ;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>setjmp &amp; longjmp</strong></p>
+<ul>
+<li><p>setjmp and longjmp are two flow control subroutines.</p>
+</li>
+<li><p>When setjmp is called, it saves the program state at that point and returns 0.</p>
+</li>
+<li><p>When longjmp is called, it returns from the place where the jump is set with the given value.</p>
+</li>
+<li><p>If you are jumping from a signal handler, you might need to used <strong>sigsetjmp</strong> and <strong>siglongjmp</strong> instead setjmp and longjmp due to signal mask issues. </p>
+</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;setjmp.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"> jmp_buf env;</span><br><span class="line"> <span class="keyword">int</span> i;</span><br><span class="line"> i = setjmp(env);</span><br><span class="line"> <span class="built_in">printf</span>(<span class="string">&quot;i = %d\n&quot;</span>, i);</span><br><span class="line"> <span class="keyword">if</span> (i != <span class="number">0</span>)</span><br><span class="line"> &#123;</span><br><span class="line"> <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line"> &#125;</span><br><span class="line"> longjmp(env, <span class="number">1</span>);</span><br><span class="line"> <span class="built_in">printf</span>(<span class="string">&quot;I will never be printed!!\n&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>setjmp</code> 與 <code>longjmp</code> 函數可以讓程式往回跳到函數呼叫堆疊中的某個函數中，就像是一種跨函數的 <code>goto</code>。</p>
+<p>首先使用 <code>setjmp</code> 在程式中標示一個目標位置（跳躍的目的地），然後在程式要進行跳躍的地方呼叫 <code>longjmp</code> 即可。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;setjmp.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 儲存程式跳躍時所需之資訊</span></span><br><span class="line">jmp_buf jmpbuffer;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">fun_a</span><span class="params">(<span class="keyword">int</span> v)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">int</span> r = v * <span class="number">2</span> - <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">if</span> (r &lt; <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="comment">// 跳躍至 main 函數</span></span><br><span class="line">    longjmp(jmpbuffer, <span class="number">1</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> r;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">fun_b</span><span class="params">(<span class="keyword">int</span> v)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">int</span> r = fun_a(v) + <span class="number">6</span>;</span><br><span class="line">  <span class="keyword">if</span> (r &gt; <span class="number">10</span>) &#123;</span><br><span class="line">    <span class="comment">// 跳躍至 main 函數</span></span><br><span class="line">    longjmp(jmpbuffer, <span class="number">2</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> r;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">fun_c</span><span class="params">(<span class="keyword">int</span> v)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">int</span> r = fun_b(v) * <span class="number">5</span> - <span class="number">21</span>;</span><br><span class="line">  <span class="keyword">return</span> r;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="comment">// 設定跳躍目標位置</span></span><br><span class="line">  <span class="keyword">int</span> jmpVal = setjmp(jmpbuffer);</span><br><span class="line">  <span class="keyword">if</span> ( jmpVal == <span class="number">1</span> ) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;fun_a errorn&quot;</span>);</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> ( jmpVal == <span class="number">2</span> ) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;fun_b errorn&quot;</span>);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;  <span class="comment">// jmpVal == 0</span></span><br><span class="line">    <span class="keyword">int</span> x = <span class="number">-5</span>;</span><br><span class="line">    <span class="keyword">int</span> result = fun_c(x);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Result = %dn&quot;</span>, result);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>在 <code>setjmp</code> 設定跳躍目標位置時，會需要指定一個特殊的 <code>jmp_buf</code> 變數，用來儲存程式跳躍時所需之資訊，而在直接呼叫 <code>setjmp</code> 函數時其傳回值為 <code>0</code>，若是透過 <code>longjmp</code> 跳回這裡時，其傳回值就會是呼叫 <code>longjmp</code> 時所指定的值.</p>
+<ul>
+<li><p>What if you want to handle a signal multiple times in your program?</p>
+</li>
+<li><p>Do not use setjmp() and longjmp().</p>
+</li>
+<li><p>setjmp() does not save the signal mask.</p>
+</li>
+<li><p>The first SIGSEGV is added to the process’ signal mask to prevent subsequent signals interrupting the handler</p>
+</li>
+<li><p>When setjmp() pseudo returns, that mask is still there.</p>
+</li>
+<li><p>use sigsetjmp() and siglongjmp()</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sigsetjmp</span><span class="params">(sigjmp_buf env, <span class="keyword">int</span> savemask)</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">siglongjmp</span><span class="params">(sigjmp_buf env, <span class="keyword">int</span> val)</span></span></span><br></pre></td></tr></table></figure>
+<p>If savemask is set to 1, it saves the signal mask and siglongjmp restores the saved signal mask.</p>
+</li>
+<li><p>What is saved in sigjmp_buf?</p>
+<p><strong>Program Counter</strong></p>
+<p>Location in the code</p>
+<p><strong>Stack pointer</strong></p>
+<p>Locations of local variables</p>
+<p>Return address of called functions</p>
+<p><strong>Signal Mask</strong> </p>
+<p> If specified</p>
+<p><strong>Rest of environment (CPU state)</strong></p>
+<p>Calculations can continue from where they stopped</p>
+</li>
+<li><p>What is NOT saved in sigjmp_buf?</p>
+<p>Global variables</p>
+<p>Variables allocated dynamically</p>
+<p>Values of local variables</p>
+<p>Any other global resources</p>
+</li>
+<li><p>What does it mean by scanning the memory?</p>
+<p>Simply, you can try to access memory locations in a loop, using pointer dereferencing</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">char</span> *p = (<span class="keyword">char</span> *)<span class="number">0xff13abc1</span>;</span><br><span class="line"><span class="keyword">char</span> a = *p;</span><br></pre></td></tr></table></figure></li>
+<li><p>How do we know where the process’ address space starts and ends?</p>
+<p>0x0 to 0xffffffff (2^32-1)</p>
+<p>This is organized into pages of 4096 bytes (or other defined size in the assignment)</p>
+</li>
+<li><p>How do we check a page’s permissions?</p>
+<p>Try reading/writing to it and see what’s the response from OS.</p>
+<p>If two consecutive pages have the same permissions, they are part of the same “mem_region”</p>
+<p>When you try to write to memory, write the same content to avoid modifying it</p>
+</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>os</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>CMOS</title>
     <url>/2021/01/21/CMOS/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="CMOS"><a href="#CMOS" class="headerlink" title="CMOS"></a>CMOS</h2><p>“CMOS” is a tiny bit of very low power static memory that lives on the same chip as the Real-Time Clock (RTC). </p>
@@ -426,8 +692,8 @@ This means that literals like 5 can be used as Ints, Integers, Doubles, or any o
 <li>指针类型大小都为8</li>
 <li>文件指针不关闭会导致内存泄漏<a id="more"></a>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//test.cpp</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  FILE *f = fopen(<span class="string">&quot;a.txt&quot;</span>,<span class="string">&quot;r&quot;</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight routeros"><table><tr><td class="code"><pre><span class="line">valgrind <span class="attribute">--leak-check</span>=full <span class="attribute">--show-reachable</span>=<span class="literal">yes</span> <span class="attribute">--trace-children</span>=<span class="literal">yes</span>   ./test</span><br></pre></td></tr></table></figure>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">==<span class="number">333</span>== Memcheck, a memory error detector</span><br><span class="line">==333== Copyright (C) 2002-2017, and GNU GPL&#x27;d, by Julian Seward et al.</span><br><span class="line">==<span class="number">333</span>== Using Valgrind<span class="number">-3.15</span><span class="number">.0</span> <span class="keyword">and</span> LibVEX; rerun with -h <span class="keyword">for</span> copyright info</span><br><span class="line">==<span class="number">333</span>== Command: ./test</span><br><span class="line">==<span class="number">333</span>==</span><br><span class="line">==<span class="number">333</span>== error calling PR_SET_PTRACER, vgdb might block</span><br><span class="line">==<span class="number">333</span>==</span><br><span class="line">==<span class="number">333</span>== HEAP SUMMARY:</span><br><span class="line">==<span class="number">333</span>==     in use at <span class="built_in">exit</span>: <span class="number">472</span> bytes in <span class="number">1</span> blocks</span><br><span class="line">==<span class="number">333</span>==   total heap usage: <span class="number">1</span> allocs, <span class="number">0</span> frees, <span class="number">472</span> bytes allocated</span><br><span class="line">==<span class="number">333</span>==</span><br><span class="line">==<span class="number">333</span>== <span class="number">472</span> bytes in <span class="number">1</span> blocks are still reachable in loss record <span class="number">1</span> of <span class="number">1</span></span><br><span class="line">==<span class="number">333</span>==    at <span class="number">0x483B7F3</span>: <span class="built_in">malloc</span> (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)</span><br><span class="line">==<span class="number">333</span>==    by <span class="number">0x48E0AAD</span>: __fopen_internal (iofopen.c:<span class="number">65</span>)</span><br><span class="line">==<span class="number">333</span>==    by <span class="number">0x48E0AAD</span>: fopen@@GLIBC_2<span class="number">.2</span><span class="number">.5</span> (iofopen.c:<span class="number">86</span>)</span><br><span class="line">==<span class="number">333</span>==</span><br><span class="line">==<span class="number">333</span>== LEAK SUMMARY:</span><br><span class="line">==<span class="number">333</span>==    definitely lost: <span class="number">0</span> bytes in <span class="number">0</span> blocks</span><br><span class="line">==<span class="number">333</span>==    indirectly lost: <span class="number">0</span> bytes in <span class="number">0</span> blocks</span><br><span class="line">==<span class="number">333</span>==      possibly lost: <span class="number">0</span> bytes in <span class="number">0</span> blocks</span><br><span class="line">==<span class="number">333</span>==    still reachable: <span class="number">472</span> bytes in <span class="number">1</span> blocks</span><br><span class="line">==<span class="number">333</span>==         suppressed: <span class="number">0</span> bytes in <span class="number">0</span> blocks</span><br><span class="line">==<span class="number">333</span>==</span><br><span class="line">==<span class="number">333</span>== For lists of detected <span class="keyword">and</span> suppressed errors, rerun with: -s</span><br><span class="line">==<span class="number">333</span>== ERROR SUMMARY: <span class="number">0</span> errors from <span class="number">0</span> contexts (suppressed: <span class="number">0</span> from <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">valgrind --leak-check=full --show-reachable=yes --trace-children=yes   ./<span class="built_in">test</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">==333== Memcheck, a memory error detector</span><br><span class="line">==333== Copyright (C) 2002-2017, and GNU GPL<span class="string">&#x27;d, by Julian Seward et al.</span></span><br><span class="line"><span class="string">==333== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info</span></span><br><span class="line"><span class="string">==333== Command: ./test</span></span><br><span class="line"><span class="string">==333==</span></span><br><span class="line"><span class="string">==333== error calling PR_SET_PTRACER, vgdb might block</span></span><br><span class="line"><span class="string">==333==</span></span><br><span class="line"><span class="string">==333== HEAP SUMMARY:</span></span><br><span class="line"><span class="string">==333==     in use at exit: 472 bytes in 1 blocks</span></span><br><span class="line"><span class="string">==333==   total heap usage: 1 allocs, 0 frees, 472 bytes allocated</span></span><br><span class="line"><span class="string">==333==</span></span><br><span class="line"><span class="string">==333== 472 bytes in 1 blocks are still reachable in loss record 1 of 1</span></span><br><span class="line"><span class="string">==333==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)</span></span><br><span class="line"><span class="string">==333==    by 0x48E0AAD: __fopen_internal (iofopen.c:65)</span></span><br><span class="line"><span class="string">==333==    by 0x48E0AAD: fopen@@GLIBC_2.2.5 (iofopen.c:86)</span></span><br><span class="line"><span class="string">==333==</span></span><br><span class="line"><span class="string">==333== LEAK SUMMARY:</span></span><br><span class="line"><span class="string">==333==    definitely lost: 0 bytes in 0 blocks</span></span><br><span class="line"><span class="string">==333==    indirectly lost: 0 bytes in 0 blocks</span></span><br><span class="line"><span class="string">==333==      possibly lost: 0 bytes in 0 blocks</span></span><br><span class="line"><span class="string">==333==    still reachable: 472 bytes in 1 blocks</span></span><br><span class="line"><span class="string">==333==         suppressed: 0 bytes in 0 blocks</span></span><br><span class="line"><span class="string">==333==</span></span><br><span class="line"><span class="string">==333== For lists of detected and suppressed errors, rerun with: -s</span></span><br><span class="line"><span class="string">==333== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)</span></span><br></pre></td></tr></table></figure>
 <h3 id="C语言判断文件是否存在"><a href="#C语言判断文件是否存在" class="headerlink" title="C语言判断文件是否存在"></a>C语言判断文件是否存在</h3>access函数判断文件夹或者文件是否存在<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">access</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *filename, <span class="keyword">int</span> mode)</span></span>;</span><br><span class="line"></span><br><span class="line">filename：可以填写文件夹路径或者文件路径</span><br><span class="line"></span><br><span class="line">mode：<span class="number">0</span> （F_OK） 只判断是否存在</span><br><span class="line">      <span class="number">2</span> （R_OK） 判断写入权限</span><br><span class="line">      <span class="number">4</span> （W_OK） 判断读取权限</span><br><span class="line">      <span class="number">6</span> （X_OK） 判断执行权限</span><br></pre></td></tr></table></figure>
 用于判断文件夹是否存在的时候，mode取0，判断文件是否存在的时候，mode可以取0、2、4、6。 若存在或者具有权限，返回值为0；<br>不存在或者无权限，返回值为-1。<br>fopen函数判断文件是否存在</li>
 </ul>
@@ -457,6 +723,17 @@ This means that literals like 5 can be used as Ints, Integers, Doubles, or any o
 <li>指针 + 1产生的偏移量取决于指针类型</li>
 <li>sizeof(size_t) == 8</li>
 </ul>
+<h3 id="杂项"><a href="#杂项" class="headerlink" title="杂项"></a>杂项</h3><p>Q:使用#ifndef在头文件中定义全局变量，然后两个.c文件分别访问(#include)，编译时就会出现multiple definition的提示，但是已经使用了条件编译，理论上第二次应该跳过定义过程，这是为什么呢？</p>
+<p>A:这类条件编译是为了防止同一个.c文件包含同一个头文件多次。<br>每一个.c文件最后都会编译生成对应的.obj文件的。所以你的两个.c文件对应的两个.obj文件都会有你说的那个全局变量的，链接的时候，链接器就会发现有定义了两个同名变量，于是就报multiple definition错误。<br>正确的做法是：是其中一个.c文件定义这个变量，在另外一个.c文件用extern声明,确保只定义一次，而声明则可以多次<br>因为头文件很容易被不同的.c文件include，生成多个.obj目标文件，因此正确的做法就是不要在头文件中定义全局变量，而应该在.c/.cpp文件中定义</p>
+<p>安装libreadline-dev</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get install libreadline-dev</span><br></pre></td></tr></table></figure>
+<p>使用：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#include &lt;readline/readline.h&gt;</span></span><br><span class="line">cc -g -Wall -fPIC -DLOGGER=1  history.o shell.o ui.o -o crash -lm -lreadline</span><br></pre></td></tr></table></figure>
+<ul>
+<li>没懂为什么-lreadline要放最后面？</li>
+</ul>
+<p>一些函数：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="comment">//获取用户名</span></span><br><span class="line"><span class="function"><span class="keyword">char</span> *<span class="title">getlogin</span><span class="params">(<span class="keyword">void</span>)</span></span>;</span><br><span class="line"><span class="comment">//获取hostname</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">gethostname</span><span class="params">(<span class="keyword">char</span> *name, <span class="keyword">size_t</span> len)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sethostname</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *name, <span class="keyword">size_t</span> len)</span></span>;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">char *name = malloc(sizeof(char)*20);</span></span><br><span class="line"><span class="comment">gethostname(name,15);</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="comment">//获取当前工作目录</span></span><br><span class="line"><span class="function"><span class="keyword">char</span> * <span class="title">getcwd</span><span class="params">(<span class="keyword">char</span> * buf, <span class="keyword">size_t</span> size)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//相当于cd</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">chdir</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *path)</span></span>;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;pwd.h&gt;</span></span></span><br><span class="line"><span class="comment">//get pwd 相关信息</span></span><br><span class="line"><span class="function">struct passwd *<span class="title">getpwuid</span><span class="params">(<span class="keyword">uid_t</span> uid)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">passwd</span> &#123;</span></span><br><span class="line"><span class="keyword">char</span> *pw_name; <span class="comment">/*user name */</span></span><br><span class="line"><span class="keyword">char</span> *pw_passwd; <span class="comment">/*user password */</span></span><br><span class="line"><span class="keyword">uid_t</span> pw_uid; <span class="comment">/*user id */</span></span><br><span class="line"><span class="keyword">gid_t</span> pw_gid; <span class="comment">/*group id */</span></span><br><span class="line"><span class="keyword">char</span> *pw_gecos; <span class="comment">/*user real name */</span></span><br><span class="line"><span class="keyword">char</span> *pw_dir; <span class="comment">/*home directory */</span></span><br><span class="line"><span class="keyword">char</span> *pw_shell; <span class="comment">/*shell program */</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">struct passwd *pwd =  getpwuid(getuid());</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 ]]></content>
       <tags>
         <tag>C语言</tag>
@@ -584,7 +861,7 @@ This means that literals like 5 can be used as Ints, Integers, Doubles, or any o
 <p>所以$\lambda - \overline{\lambda} = 0$，即$\lambda$为实数.</p>
 <p>设$\lambda$为$A^{T}A$的特征值，有</p>
 <p>$\left | AX \right |^{2} = X^{T}A^{T}AX = \lambda X^{T}X = \lambda \left \| X\right \|^{2}$.</p>
-<p>所以$\lambda = \frac{\left \| AX\right \|^{2}}{\left \| X\right \|^{2}} \geq 0$.</p>
+<p>所以$\lambda = \frac{\left | AX\right |^{2}}{\left | X\right|^{2}} \geq 0$.</p>
 <hr>
 <p>$A \in \mathbb{R}^{m\times n}$ 则$A$存在奇异值分解：</p>
 <p>$A = U\Sigma V^{T}$,其中$U$是$m$阶正交矩阵,$V$是$n$阶正交矩阵,$\Sigma$是$m\times n$矩形对角矩阵,其对角线元素非负,且按降序排列.</p>
