@@ -1,4 +1,5 @@
 ---
+
 title: C语言的一些记录
 date: 2020-08-21 23:00:15
 tags: C语言
@@ -139,3 +140,60 @@ A:这类条件编译是为了防止同一个.c文件包含同一个头文件多�
 每一个.c文件最后都会编译生成对应的.obj文件的。所以你的两个.c文件对应的两个.obj文件都会有你说的那个全局变量的，链接的时候，链接器就会发现有定义了两个同名变量，于是就报multiple definition错误。
 正确的做法是：是其中一个.c文件定义这个变量，在另外一个.c文件用extern声明,确保只定义一次，而声明则可以多次
 因为头文件很容易被不同的.c文件include，生成多个.obj目标文件，因此正确的做法就是不要在头文件中定义全局变量，而应该在.c/.cpp文件中定义
+
+
+
+安装libreadline-dev
+
+```bash
+sudo apt-get install libreadline-dev
+```
+
+使用：
+
+```bash
+#include <readline/readline.h>
+cc -g -Wall -fPIC -DLOGGER=1  history.o shell.o ui.o -o crash -lm -lreadline
+```
+
+* 没懂为什么-lreadline要放最后面？
+
+
+
+一些函数：
+
+```c
+#include <unistd.h>
+//获取用户名
+char *getlogin(void);
+//获取hostname
+int gethostname(char *name, size_t len);
+int sethostname(const char *name, size_t len);
+/*
+char *name = malloc(sizeof(char)*20);
+gethostname(name,15);
+*/
+//获取当前工作目录
+char * getcwd(char * buf, size_t size);
+
+//相当于cd
+int chdir(const char *path);
+#include <pwd.h>
+//get pwd 相关信息
+struct passwd *getpwuid(uid_t uid);
+
+struct passwd {
+char *pw_name; /*user name */
+char *pw_passwd; /*user password */
+uid_t pw_uid; /*user id */
+gid_t pw_gid; /*group id */
+char *pw_gecos; /*user real name */
+char *pw_dir; /*home directory */
+char *pw_shell; /*shell program */
+};
+/*
+struct passwd *pwd =  getpwuid(getuid());
+*/
+
+```
+
