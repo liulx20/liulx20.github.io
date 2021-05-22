@@ -88,3 +88,4 @@ $u_{i}^{T}u_{j} = (\frac{1}{\sigma_{i}}\nu_{i}^{T}A^{T})(\frac{1}{\sigma_{j}}A\n
 $U\Sigma V^{T} = \begin{bmatrix}U_{1} & U_{2} \end{bmatrix}\begin{bmatrix}\Sigma_{1} & 0\\\ 0 & 0 \end{bmatrix}\begin{bmatrix}V_{1}^{T}\\\ 
                  V_{2}^{T}\end{bmatrix}=U_{1}\Sigma_{1}V_{1}^{T} = AV_{1}V_{1}^{T} = A$.
                                                               
+
