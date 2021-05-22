@@ -4,9 +4,9 @@ date: 2021-04-16 10:39:21
 tags: C++
 ---
 
-### 怎么写一个iterator
+### C++ 自定义iterator
 
-<--! More -->
+<!-- More -->
 
 ```C++
 #ifndef LINKEDLIST_H
