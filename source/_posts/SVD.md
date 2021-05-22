@@ -55,7 +55,9 @@ $A = U\Sigma V^{T}$,其中$U$是$m$阶正交矩阵,$V$是$n$阶正交矩阵,$\Si
 
 证明: $A^{T}A$的特征值都为实数，因而存在有正交矩阵$V$，使得$V^{T}(A^{T}A)V = \Lambda$ 成立.
 
-其中$\Lambda$为对角矩阵，对角线元素为$A^{T}A$的特征值,调整特征值的顺序，使其按降序排列，满足$\lambda_{1} \geq \lambda_{2} \geq \lambda_{3}\cdots \geq \lambda_{n} \geq 0$.
+其中$\Lambda$为对角矩阵，对角线元素为$A^{T}A$的特征值,调整特征值的顺序，使其按降序排列，满足
+
+$\lambda_{1} \geq \lambda_{2} \geq \lambda_{3}\cdots \geq \lambda_{n} \geq 0$.
 
 令 $V_{1} = \begin{bmatrix} \nu _{1} & \nu_{2}  & \cdots  & \nu_{r} \end{bmatrix}$,$V_{2} = \begin{bmatrix} \nu _{r+1}  & \cdots  & \nu_{n} \end{bmatrix}$
 
