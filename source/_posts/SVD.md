@@ -59,7 +59,9 @@ $A = U\Sigma V^{T}$,其中$U$是$m$阶正交矩阵,$V$是$n$阶正交矩阵,$\Si
 
 $\lambda_{1} \geq \lambda_{2} \geq \lambda_{3}\cdots \geq \lambda_{n} \geq 0$.
 
-令 $V_{1} = \begin{bmatrix} \nu _{1} & \nu_{2}  & \cdots  & \nu_{r} \end{bmatrix}$,$V_{2} = \begin{bmatrix} \nu _{r+1}  & \cdots  & \nu_{n} \end{bmatrix}$
+令 $V_{1} = \begin{bmatrix} \nu _{1} & \nu_{2}  & \cdots  & \nu_{r} \end{bmatrix}$,
+
+$V_{2} = \begin{bmatrix} \nu _{r+1}  & \cdots  & \nu_{n} \end{bmatrix}$
 
 其中$\nu_{1} \cdots \nu_{r}$为$A^{T}A$正特征值对应的特征向量，$\nu_{r+1} \cdots \nu_{n}$为$A^{T}A$零特征值的对应的特征向量.
 

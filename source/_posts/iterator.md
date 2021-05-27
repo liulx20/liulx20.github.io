@@ -6,6 +6,8 @@ tags: C++
 
 ### C++ 自定义iterator
 
+{% asset_img lake-6256628.jpg %}
+
 <!-- More -->
 
 ```C++
