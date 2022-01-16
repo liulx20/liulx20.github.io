@@ -197,3 +197,73 @@ struct passwd *pwd =  getpwuid(getuid());
 
 ```
 
+```c
+int x;
+int a[0];
+//此时a的地址与x地址一致，数组名相较于指针减少一次访存
+//sizeof(a) == 0
+```
+
+### 栈溢出
+
+![image-20210927132642445](C:\Users\liule\AppData\Roaming\Typora\typora-user-images\image-20210927132642445.png)
+
+修改传入参数arg内容，让它覆盖返回地址，导致栈溢出
+
+
+
+### 在main函数之前、之后执行代码
+
+```c++
+#include<stdio.h> 
+
+__attribute__((constructor)) void before_main() { 
+   printf("before main\n"); 
+} 
+
+__attribute__((destructor)) void after_main() { 
+   printf("after main\n"); 
+} 
+  
+int main(int argc, char **argv) { 
+   printf("in main\n"); 
+   return 0; 
+}
+
+```
+
+GNU C 的一大特色就是__attribute__ 机制。__attribute__ 可以设置函数属性（Function Attribute ）、变量属性（Variable Attribute ）和类型属性（Type Attribute ）。
+
+__attribute__ 书写特征是：__attribute__ 前后都有两个下划线，并切后面会紧跟一对原括弧，括弧里面是相应的__attribute__ 参数。
+
+__attribute__ 语法格式为：__attribute__ ((attribute-list))
+
+关键字__attribute__ 也可以对结构体（struct ）或共用体（union ）进行属性设置。大致有六个参数值可以被设定，即：aligned, packed, transparent_union, unused, deprecated 和 may_alias 。
+
+在使用__attribute__ 参数时，你也可以在参数的前后都加上“__” （两个下划线），例如，使用__aligned__而不是aligned ，这样，你就可以在相应的头文件里使用它而不用关心头文件里是否有重名的宏定义。
+
+**1、aligned** 
+
+指定对象的对齐格式（以字节为单位），如：
+
+```c
+struct S {
+ 
+short b[3];
+ 
+} __attribute__ ((aligned (8)));
+typedef int int32_t __attribute__ ((aligned (8)));
+
+```
+
+该声明将强制编译器确保（尽它所能）变量类 型为struct S 或者int32_t 的变量在分配空间时采用8字节对齐方式。
+
+**2、packed**
+
+​    使用该属性对struct 或者union 类型进行定义，设定其类型的每一个变量的内存约束。就是告诉编译器取消结构在编译过程中的优化对齐（使用1字节对齐）,按照实际占用字节数进行对齐，是GCC特有的语法。
+
+```c
+ struct my{ char ch; int a;}     sizeof(int)=4;sizeof(my)=8;
+struct my{ char ch; int a;}__attrubte__ ((packed))        sizeof(int)=4;sizeof(my)=5
+```
+

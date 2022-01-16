@@ -22,17 +22,18 @@
     var CONFIG = {"hostname":"github.com","root":"/","scheme":"Pisces","version":"8.0.0-rc.5","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"path":"search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false}};
   </script>
 
-  <meta name="description" content="批处理操作系统 操作系统是一个简单的串行程序调度器和一系列库函数 操作系统中开始有设备文件任务，但只有一个独占计算机运行的程序。">
-<meta property="og:type" content="article">
+  <meta property="og:type" content="article">
 <meta property="og:title" content="操作系统">
 <meta property="og:url" content="https://github.com/liulx20/2021/05/26/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/index.html">
 <meta property="og:site_name" content="liulx">
-<meta property="og:description" content="批处理操作系统 操作系统是一个简单的串行程序调度器和一系列库函数 操作系统中开始有设备文件任务，但只有一个独占计算机运行的程序。">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://github.com/2021/05/26/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/lake-5990540.jpg">
 <meta property="article:published_time" content="2021-05-26T02:53:24.000Z">
-<meta property="article:modified_time" content="2021-05-26T03:01:54.646Z">
+<meta property="article:modified_time" content="2021-07-04T07:47:21.326Z">
 <meta property="article:author" content="liulx">
+<meta property="article:tag" content="操作系统">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/2021/05/26/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/lake-5990540.jpg">
 
 
 <link rel="canonical" href="https://github.com/liulx20/2021/05/26/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
@@ -197,7 +198,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -209,6 +210,7 @@
 
       <!--noindex-->
       <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%92%E6%96%A5"><span class="nav-number">1.</span> <span class="nav-text">互斥</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%8C%E6%AD%A5"><span class="nav-number">2.</span> <span class="nav-text">同步</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%93%BE%E6%8E%A5%E4%B8%8E%E5%8A%A0%E8%BD%BD"><span class="nav-number">3.</span> <span class="nav-text">链接与加载</span></a></li></ol></div>
       </section>
       <!--/noindex-->
 
@@ -224,14 +226,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-count">28</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-count">17</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -301,10 +303,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2021-05-26 10:53:24 / 修改时间：11:01:54" itemprop="dateCreated datePublished" datetime="2021-05-26T10:53:24+08:00">2021-05-26</time>
+              <time title="创建时间：2021-05-26 10:53:24" itemprop="dateCreated datePublished" datetime="2021-05-26T10:53:24+08:00">2021-05-26</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-07-04 15:47:21" itemprop="dateModified" datetime="2021-07-04T15:47:21+08:00">2021-07-04</time>
+              </span>
 
           
             <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
@@ -336,9 +344,598 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p>批处理操作系统</p>
+        <img src="/2021/05/26/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/lake-5990540.jpg" class="">
+<a id="more"></a>
+<p>批处理操作系统</p>
 <p>操作系统是一个简单的串行程序调度器和一系列库函数</p>
 <p>操作系统中开始有设备文件任务，但只有一个独占计算机运行的程序。</p>
+<ul>
+<li>并发（Concurrent)多个执行流可以不按照一个特定顺序执行</li>
+<li>并行（Parallel)允许多个执行流同时执行（多个处理器</li>
+</ul>
+<p>线程：多个执行流并发、并行执行，并且他们共享内存</p>
+<ul>
+<li>两个执行流共享代码和所有全局变量（数据、堆区）(寄存器，堆栈独享)</li>
+<li>线程之间指令执行顺序是不确定（non-deterministic）的</li>
+<li>共享代码：所有线程的代码都来自当前进程的代码</li>
+<li>共享数据：全局数据、堆区可以自由引用</li>
+<li>独立堆栈：每个线程都有独立的堆栈</li>
+</ul>
+<p>POSIX线程库（pthreads)</p>
+<p>使用pthread_create创建并运行线程</p>
+<p>使用pthread_join等待某个线程结束</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">__thread <span class="keyword">int</span> id; <span class="comment">//thread-local variables</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>使用pmap可以查看到8192KiB内存映射区域和4KiB（一页的）guard（防止爆栈对其他线程造成影响</p>
+</li>
+<li><p>原子性（atomicity)</p>
+<p>一段代码不允许和其他代码并发</p>
+</li>
+<li><p>指令序列可以在任意时刻被中断，操作系统切换到其他线程</p>
+<ul>
+<li>即使是最简单的x++，也不能保证原子性</li>
+</ul>
+</li>
+</ul>
+<p>编译优化</p>
+<ul>
+<li>允许源代码中内存访问指令不在按顺序甚至不再出现</li>
+<li>编译器假设优化对象是单线程程序</li>
+<li>假设程序是读写序列，编译器：<ul>
+<li>在值能被确定的前提下，R(x)可能被删除</li>
+<li>在未来x一定被覆盖的前提下，W(x)可能被删除</li>
+<li>x,y读写可以交换顺序</li>
+</ul>
+</li>
+<li>for(int i = 0; i &lt; n; i++)sum++</li>
+</ul>
+<p>-O1 tmp = R(sum); for (int i = 0; i &lt; n; i++); tmp += n; W(sum,tmp)</p>
+<p>-O2 tmp = R(sum); tmp += n; W(sum,tmp);</p>
+<ul>
+<li><p>可见性的丧失</p>
+<p>为了使CPU运行得更快，CPU可以不按顺序执行指令</p>
+</li>
+<li><p>现代处理器</p>
+<ul>
+<li>如果两条指令没有数据依赖关系，就能让他们并行执行</li>
+<li>乱序执行<ul>
+<li>多处理器上执行的结果可以不等价指令按照某个顺序执行的结果</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>C代码</p>
+<ul>
+<li>编译器优化-&gt;顺序丧失</li>
+</ul>
+</li>
+<li><p>二进制文件</p>
+</li>
+<li><p>处理器执行</p>
+<ul>
+<li>中断、并行-&gt;原子性丧失</li>
+<li>乱序执行-&gt;可见性丧失</li>
+</ul>
+</li>
+<li><p>共享内存并发程序问题：</p>
+<p>内存访问不保证按代码书写顺序发生</p>
+<p>代码的原子性随时被破坏</p>
+<p>执行过的指令可能在多处理器之间不可见</p>
+</li>
+<li><p>保证顺序</p>
+<p>控制编译器行为、阻止编译优化：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">delay</span><span class="params">()</span></span>&#123;</span><br><span class="line">   <span class="keyword">for</span>(<span class="keyword">volatile</span> <span class="keyword">int</span> i = <span class="number">0</span>; i &lt; DELAY_COUNT,i++);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>保证内存访问（指令）顺序</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extern</span> <span class="keyword">int</span> x;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> barrier() asm volatile(<span class="meta-string">&quot;&quot;</span>:::<span class="meta-string">&quot;memory&quot;</span>)</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">foo</span><span class="params">()</span></span>&#123;</span><br><span class="line">   x++;</span><br><span class="line">   barrier();</span><br><span class="line">   x++;<span class="comment">//阻止x的访问被合并</span></span><br><span class="line">   y++;<span class="comment">//y的访问不能移到barrier之前</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>有限状态机Finite State Machine(FSM)</p>
+<ul>
+<li>有向图G(V,E)<ul>
+<li>节点$v \in V$是状态</li>
+<li>边$e \in E$是状态的转换</li>
+<li>边上有label代表执行某个动作</li>
+</ul>
+</li>
+</ul>
+<p>程序=有限状态机</p>
+<p>（操作系统上的）程序执行时，状态是有限的</p>
+<ul>
+<li>寄存器（PC指针）</li>
+<li>内存：代码，数据、堆栈</li>
+</ul>
+<p>构造有限状态机：</p>
+<ul>
+<li>每个不同的configuration(内存/寄存器)都是状态机的节点<ul>
+<li>$s = (M,R)\in V$,代表某个时刻程序内存/寄存器的快照</li>
+<li>16MiB内存就有$2^{2^{64}}$种不同状态</li>
+</ul>
+</li>
+<li>$s = (M,R)$ 的下一个状态是执行$M[R[\%rip]]$处指令得到的$s’ = (M’,R’)$<ul>
+<li>取出PC指针处的指令、译码、执行、写回数据</li>
+<li>$(s,s’)\in E$</li>
+</ul>
+</li>
+</ul>
+<p>大部分状态s有唯一的后续状态（deterministic)</p>
+<p>不确定（non-deterministic）指令可能有多种后续状态</p>
+<ul>
+<li><p>（时间）rdtsc/rdtscp</p>
+</li>
+<li><p>(机器状态)rdrand</p>
+<p>处理器自身提供的真随机数指令</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdint.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">   <span class="keyword">uint64_t</span> val;</span><br><span class="line">   <span class="function"><span class="keyword">asm</span> <span class="title">volatile</span><span class="params">(<span class="string">&quot;rdrand %0&quot;</span>: <span class="string">&quot;=r&quot;</span>(val))</span></span>;</span><br><span class="line">   <span class="built_in">printf</span>(<span class="string">&quot;rdrand returns %016lx\n&quot;</span>,val);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>系统调用（syscall)</p>
+<p>read(fd,buf,size)</p>
+</li>
+<li><p>不确定性的来源：程序运行在操作系统/计算机硬件上，他们有自己的状态</p>
+</li>
+</ul>
+<p>gdb:</p>
+<p>info registers会列出所有的寄存器</p>
+<p>/proc/[pid]/maps有内存映射信息</p>
+<ul>
+<li><p>应用</p>
+<ul>
+<li><p>在计算机硬件上的应用：高性能处理器的实现</p>
+<p>超标量（superscalar)处理器</p>
+<ul>
+<li>insight:允许在状态机上跳跃</li>
+</ul>
+</li>
+<li><p>在计算机系统上的应用：程序分析技术</p>
+<ul>
+<li>静态分析：根据程序代码推导出状态机的性质</li>
+<li>动态分析：检查运行时观测到状态机的执行</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>程序执行能否在时间上后退？</p>
+<p>记录所有的$s<em>{i}$开销太大（$s</em>{i}$由内存+寄存器组成）</p>
+<p>但一条指令的side-effect通常有限</p>
+<ul>
+<li>只记录初始状态，和每条指令前后的diff</li>
+</ul>
+</li>
+<li><p>线程</p>
+<p>共享代码和数据</p>
+<p>拥有独立的寄存器和堆栈</p>
+<ul>
+<li>堆栈也位于同一地址空间中</li>
+<li>允许把局部变量的指针（&amp;local_var)传递给另一线程</li>
+</ul>
+</li>
+<li><p>Peterson算法</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> turn = T1,x = <span class="number">0</span>, y = <span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">thread1</span><span class="params">()</span></span>&#123;</span><br><span class="line">    x = <span class="number">1</span>; turn = T2;</span><br><span class="line">    <span class="keyword">while</span>(y &amp;&amp; turn == T2);</span><br><span class="line">    x = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">thread2</span><span class="params">()</span></span>&#123;</span><br><span class="line">    y = <span class="number">1</span>; turn = T1;</span><br><span class="line">    <span class="keyword">while</span>(x &amp;&amp; turn == T1);</span><br><span class="line">    y = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>假设：机器每次原子地（atomically)执行一行代码，内存访问立即可见</p>
+</li>
+</ul>
+<h3 id="互斥"><a href="#互斥" class="headerlink" title="互斥"></a>互斥</h3><ul>
+<li><p>实现lock_t数据结构</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span>&#123;</span></span><br><span class="line">...</span><br><span class="line">&#125;<span class="keyword">lock_t</span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">lock</span><span class="params">(<span class="keyword">lock_t</span> *lk)</span></span>;<span class="comment">//试图获得锁的独占访问，成功获得后返回</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">unlock</span><span class="params">(<span class="keyword">lock_t</span> *lk)</span></span>;<span class="comment">//释放锁的独占访问</span></span><br></pre></td></tr></table></figure>
+<p>一把排他性的锁—对于锁对象lk</p>
+<ul>
+<li><p>在任何线程调度下</p>
+<ul>
+<li>若某个线程持有锁（lock(lk)返回未释放）</li>
+<li>则任何其他线程lock(lk)都不能返回</li>
+</ul>
+</li>
+<li><p>在共享内存上，共享资源的访问太危险（原子性、顺序、可见性丧失），互斥用来阻止代码块之间的并发，实现串行化</p>
+<ul>
+<li>lock/unlock保护区域成为一个原子的黑盒子</li>
+<li>黑盒子的代码不能随意并发</li>
+<li>且先完成的黑盒子的内存访问在之后的黑盒子中可见</li>
+</ul>
+</li>
+<li><p>共享内存上实现互斥</p>
+<ul>
+<li>共享内存多线程：独立的寄存器、堆栈，共享内存</li>
+<li>支持的基本操作<ul>
+<li>线程本地（thread-local）计算(寄存器、堆栈上的数值读写、修改)（其他线程不可见</li>
+<li>load，读共享内存</li>
+<li>store，写共享内存</li>
+<li>假设load,store是原子的</li>
+</ul>
+</li>
+<li>困难在于：不能同时读写内存</li>
+</ul>
+</li>
+<li><p>一条不可分割的指令</p>
+<ul>
+<li>一次共享内存的load</li>
+<li>向同一共享内存地址的store</li>
+<li>以及一些线程本地的计算</li>
+</ul>
+</li>
+<li><p>原子操作保证：</p>
+<ul>
+<li>原子性：load/store不会被打断</li>
+<li>顺序：线程执行乱序不能越过原子操作</li>
+<li>多处理器之间的可见性：若原子操作A发生在B之前，在A之前的store对B之后的load可见</li>
+</ul>
+</li>
+<li><p>x86原子操作</p>
+<p>lock指令前缀</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">do_sum</span><span class="params">()</span></span>&#123;</span><br><span class="line">   <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10000</span>; i++)&#123;</span><br><span class="line">   <span class="function"><span class="keyword">asm</span> <span class="title">volatile</span><span class="params">(<span class="string">&quot;lock addq $1,%0&quot;</span>:<span class="string">&quot;=m&quot;</span>(sum))</span></span>;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>xchg</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">xchg</span><span class="params">(<span class="keyword">volatile</span> <span class="keyword">int</span> * addr,<span class="keyword">int</span> newval)</span></span>&#123;</span><br><span class="line"><span class="keyword">int</span> result;</span><br><span class="line"><span class="function"><span class="keyword">asm</span> <span class="title">volatile</span><span class="params">(<span class="string">&quot;lock xchg %0, %1&quot;</span></span></span></span><br><span class="line"><span class="function"><span class="params">     : <span class="string">&quot;+m&quot;</span>(*addr),<span class="comment">//[%0] addr (内存、读写)</span></span></span></span><br><span class="line"><span class="function"><span class="params">      <span class="string">&quot;=a&quot;</span>(result)<span class="comment">//[%1]result (%eax)</span></span></span></span><br><span class="line"><span class="function"><span class="params">      :<span class="string">&quot;1&quot;</span>(newval)<span class="comment">//[%1]</span></span></span></span><br><span class="line"><span class="function"><span class="params">      :<span class="string">&quot;cc&quot;</span></span></span></span><br><span class="line"><span class="function"><span class="params">)</span></span>;</span><br><span class="line"><span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>自旋锁</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> table = KEY;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">lock</span><span class="params">()</span></span>&#123;</span><br><span class="line"><span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line"><span class="keyword">int</span> got = xchg(&amp;locked,NOTE);</span><br><span class="line"><span class="keyword">if</span>(got == KEY)<span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">unlock</span><span class="params">()</span></span>&#123;</span><br><span class="line">xchg(&amp;table,KEY);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> locked = <span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">lock</span><span class="params">()</span></span>&#123;</span><br><span class="line"><span class="keyword">while</span>(xchg(&amp;locked,<span class="number">1</span>));</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">unlock</span><span class="params">()</span></span>&#123;</span><br><span class="line">xchg(&amp;locked,<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>RISC-V:另一种原子操作</p>
+<p>原子操作本质：</p>
+<p>load(x)</p>
+<p>设置处理器局部（寄存器）状态</p>
+<p>store(x)</p>
+</li>
+<li><p>多处理器自旋锁：</p>
+<ol>
+<li><p>线程获得锁后发生中断，此时锁没被释放，其他线程无法获得锁</p>
+<p>获得自旋锁的线程不应该被中断，否则将导致大量其他线程浪费在自旋上</p>
+<p>关闭中断后，处理器上的执行流完全确定了</p>
+</li>
+</ol>
+</li>
+<li><p>中断的原子性/顺序</p>
+<ul>
+<li>关闭中断后，操作系统上的程序<ul>
+<li>独占处理器执行</li>
+<li>不会被打断</li>
+</ul>
+</li>
+<li>asm volatile汇编保证编译器不会调换指令顺序</li>
+</ul>
+</li>
+<li><p>中断可见性</p>
+<ul>
+<li>硬件保证中断必发生在指令边界</li>
+<li>中断前的数据全部写入（缓存/内存</li>
+</ul>
+</li>
+<li><p>关中断+自旋</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">spin_lock</span><span class="params">(<span class="keyword">spinlock_t</span> &amp;lk)</span></span>&#123;</span><br><span class="line">cli();</span><br><span class="line"><span class="keyword">while</span>(atomic_xchg(&amp;lk-&gt;locked,<span class="number">1</span>));</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">spin_unlock</span><span class="params">(<span class="keyword">spinlock_t</span> &amp;lk)</span></span>&#123;</span><br><span class="line">atomic_xchg(&amp;lk-&gt;locked,<span class="number">0</span>);</span><br><span class="line">sti();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>先关中断再自旋</p>
+<p>先释放锁再开中断</p>
+</li>
+<li><p>在线程第一次lock时保存中断状态，关闭中断</p>
+</li>
+<li><p>在线程最后一次unlock时恢复保存的中断状态</p>
+</li>
+</ul>
+<p>关中断+自旋：用来保护一段较短的临界区</p>
+<ul>
+<li><p>持有锁期间，线程不能被中断</p>
+</li>
+<li><p>其他等待锁的线程在关中断的前提下自旋</p>
+<p>无法等待、必须立即执行否则不能继续的场景</p>
+</li>
+</ul>
+</li>
+<li><p>互斥锁</p>
+<ul>
+<li>持有锁线程<ul>
+<li>允许处理器响应中断</li>
+<li>允许切换到其他线程执行<ul>
+<li>访问磁盘的线程不能阻碍系统其他部分执行</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>等待锁的线程<ul>
+<li>不要占用处理器资源自旋</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">mutex_lock</span><span class="params">(<span class="keyword">mutexlock_t</span> *lk)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> acquired = <span class="number">0</span>;</span><br><span class="line">    spin_lock(&amp;lk-&gt;spinlock);</span><br><span class="line">    <span class="keyword">if</span>(lk-&gt;locked != <span class="number">0</span>)&#123;</span><br><span class="line">        enqueue(lk-&gt;wait_list,current);</span><br><span class="line">        current-&gt;status = BLOCKED;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        lk-&gt;locked = <span class="number">1</span>;</span><br><span class="line">        acquired = <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    spin_unlock(&amp;lk-&gt;spinlock);</span><br><span class="line">    <span class="keyword">if</span>(!acquired) yield();<span class="comment">//主动切换到其他线程执行</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">metex_unlock</span><span class="params">(<span class="keyword">mutexlock_t</span> *lk)</span></span>&#123;</span><br><span class="line">    spin_lock(&amp;lk-&gt;spinlock);</span><br><span class="line">    <span class="keyword">if</span>(!empty(lk-&gt;wait_list))&#123;</span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">task_t</span> * <span class="title">task</span> =</span> dequeue(lk-&gt;wait_list);</span><br><span class="line">        task-&gt;status = RUNNNABLE;<span class="comment">//唤醒之前睡眠的线程</span></span><br><span class="line">       </span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        lk-&gt;locked = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    spin_unlock(&amp;lk-&gt;spinlock);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="同步"><a href="#同步" class="headerlink" title="同步"></a>同步</h3><p>（Synchronization）两个或两个以上随时间变化的量在变化过程中保持一定的相对关系</p>
+<ul>
+<li>生产者消费者问题<ul>
+<li>生产者（线程)生产资源（一个对象），生产时间不确定</li>
+<li>消费者（线程）消费资源（取走一个对象），消费时间也不确定</li>
+</ul>
+</li>
+</ul>
+<p>条件变量</p>
+<ul>
+<li>同步的本质：当某个条件满足时，线程执行，否则等待</li>
+</ul>
+<p>用一个对象来表示条件的满足/不满足</p>
+<ul>
+<li>条件不满足，随时可以在这个对象上等待</li>
+<li>另一线程发现条件满足，唤醒一个（或所有）正在等待的线程</li>
+</ul>
+<p>对于一个条件变量cv:</p>
+<ul>
+<li>wait(cv)<ul>
+<li>进入睡眠状态，等待cv上的事件的发生</li>
+</ul>
+</li>
+<li>signal/notify(cv)<ul>
+<li>报告cv上的事件发生</li>
+<li>如果有线程正在等待cv，则唤醒其中一个线程</li>
+</ul>
+</li>
+<li>broadcast/notifyAll(cv)<ul>
+<li>报告cv上的事件发生</li>
+<li>唤醒全部正在等待的cv线程</li>
+</ul>
+</li>
+</ul>
+<p>和互斥锁联合使用</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mutex_lock(&amp;mutex);</span><br><span class="line"><span class="comment">//任意代码</span></span><br><span class="line">wait(&amp;cv,&amp;mutex);</span><br><span class="line"><span class="comment">//任意代码</span></span><br><span class="line">mutex_unlock(&amp;mutex);</span><br><span class="line"><span class="comment">//signal不受互斥锁约束</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>wait会立即释放锁并等待</li>
+<li>被signal后恢复执行，会首先试图获得mutex</li>
+</ul>
+<p>//错误代码</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">producer_thread</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line">        mutex_lock(&amp;mutex);</span><br><span class="line">        <span class="keyword">if</span>(count == n)wait(&amp;cv,&amp;mutex);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;(&quot;</span>);</span><br><span class="line">        count++; signal(&amp;cv);</span><br><span class="line">        mutex_unlock(&amp;mutex);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">consumer_thread</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line">        mutex_lock(&amp;mutex);</span><br><span class="line">        <span class="keyword">if</span>(count == <span class="number">0</span>)wait(&amp;cv,&amp;mutex);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;)&quot;</span>);</span><br><span class="line">        count--; signal(&amp;cv);</span><br><span class="line">        mutex_unlock(&amp;mutex);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>一个条件变量无法解决</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">producer_thread</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line">        mutex_lock(&amp;mutex);</span><br><span class="line">        <span class="keyword">while</span>(count == n)wait(&amp;empty,&amp;mutex);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;(&quot;</span>);</span><br><span class="line">        count++; signal(&amp;fill);</span><br><span class="line">        mutex_unlock(&amp;mutex);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">consumer_thread</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line">        mutex_lock(&amp;mutex);</span><br><span class="line">        <span class="comment">//if 改为while</span></span><br><span class="line">        <span class="keyword">while</span>(count == <span class="number">0</span>)wait(&amp;fill,&amp;mutex);</span><br><span class="line">        </span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;)&quot;</span>);</span><br><span class="line">        count--; signal(&amp;empty);</span><br><span class="line">        mutex_unlock(&amp;mutex);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>上述代码保证了safety wait 结束后条件一定为真</li>
+<li>如果需要liveness,只需再任何可能条件为真时broadcast唤醒所有人</li>
+</ul>
+<p>信号量</p>
+<p>信号量=互斥锁和条件变量的结合体</p>
+<ul>
+<li>互斥锁<ul>
+<li>仅有一个手环的情况</li>
+<li>P=lock V=unlock</li>
+</ul>
+</li>
+<li>条件变量<ul>
+<li>手环的数量作为等待的条件</li>
+<li>P=wait V = signal</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">producer</span><span class="params">()</span></span>&#123;</span><br><span class="line">P(&amp;empty);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;(&quot;</span>);</span><br><span class="line">    V(&amp;fill);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">consumer</span><span class="params">()</span></span>&#123;</span><br><span class="line">    P(&amp;fill);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;)&quot;</span>);</span><br><span class="line">    V(&amp;empty);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>死锁</p>
+<p>出现线程互相等待的情况</p>
+<p>ABBA类型死锁</p>
+<p>四个必要条件：</p>
+<p>互斥：一个资源每次只能被一个进程使用</p>
+<p>请求与保持：一个进程请求阻塞时，不释放已获得资源</p>
+<p>不剥夺：进程已获得的资源不能强行剥夺</p>
+<p>循环等待：若干线程之间形成头尾相接的循环资源等待关系</p>
+<ul>
+<li><p>AA-Deadlock</p>
+<p>AA类型死锁容易检测，及早报告，及早修复</p>
+</li>
+<li><p>ABBA-Deadlock</p>
+<p>任意时刻系统中的锁是有限的</p>
+<p>严格按照固定顺序获得所有锁</p>
+<p>T1:A-&gt;B-&gt;C ;T2:B-&gt;C是安全</p>
+<ul>
+<li>在任意时刻总有一个线程（获得最靠后锁的）可以继续执行</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>互斥锁-原子性</p>
+<p>条件变量-同步</p>
+<ul>
+<li>忘记上锁-原子性违反</li>
+<li>忘记同步-顺序违反</li>
+</ul>
+<p>操作系统</p>
+<p>操作系统是管理多个应用程序执行的软件</p>
+<ul>
+<li>应用视角：一组系统调用API</li>
+<li>硬件视角：就是个状态机（C程序）</li>
+</ul>
+<p>状态机的虚拟化</p>
+<ul>
+<li>操作系统模拟了其中所有进程的状态机</li>
+<li>程序彷佛自己独占CPU执行，但它独占的只是CPU的一部分</li>
+</ul>
+<p>进程：运行的程序</p>
+<ul>
+<li>任意时刻、进程都可以看成是状态机的状态</li>
+</ul>
+<p>操作系统在中断后，可以选择将进程（状态机）调度到CPU上执行</p>
+<ul>
+<li><p>进程执行系统调用，会使用指令（syscall)等回到操作系统</p>
+</li>
+<li><p>操作系统是一个中断处理程序</p>
+<ul>
+<li>被动的中断：硬件</li>
+<li>主动的中断：系统调用</li>
+</ul>
+</li>
+<li><p>三类系统调用</p>
+<ul>
+<li><p>进程管理：</p>
+<p>fork,execve,exit-状态机的创建、改变、删除</p>
+</li>
+<li><p>存储管理</p>
+<p>mmap-对进程虚拟地址空间的一部分进行映射</p>
+<p>brk-虚拟地址空间管理</p>
+</li>
+<li><p>文件管理</p>
+<p>open、close文件访问管理</p>
+<p>read、write数据管理</p>
+<p>mkdir、link、unlink目录管理</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>创建状态机fork()</p>
+<p>替换状态机execve(filename,argc,enpv)</p>
+<ul>
+<li>执行名为filename的程序</li>
+<li>分别传入参数argv(V)和环境变量envp(e)</li>
+</ul>
+<p><code>env</code>查看当前环境变量</p>
+<p>PATH:可执行文件搜索路径</p>
+<p>PWD:当前路径</p>
+<p>HOME:home目录</p>
+<p>DISPLAY:图形输出</p>
+<p>PS1：shell提示符</p>
+<ul>
+<li>export:告诉shell在创建子进程时设置环境变量</li>
+</ul>
+<p>终止状态机exit</p>
+<ul>
+<li>销毁当前状态机，并允许有一个返回值</li>
+<li>子进程终止会通知父进程</li>
+</ul>
+<ul>
+<li><p>进程的地址空间</p>
+<p>进程的地址空间=内存中若干连续的段</p>
+<ul>
+<li><p>每一段是可访问的（读/写/执行）内存</p>
+<p>可能映射到某个文件/或在进程间共享</p>
+</li>
+</ul>
+<p>管理进程地址空间的系统调用</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> *<span class="title">mmap</span><span class="params">(<span class="keyword">void</span> *addr,<span class="keyword">size_t</span> length,<span class="keyword">int</span> prot,<span class="keyword">int</span> flags,<span class="keyword">int</span> fd,<span class="keyword">off_t</span> offset)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">munmap</span><span class="params">(<span class="keyword">void</span> *addr,<span class="keyword">size_t</span> length)</span></span>;</span><br><span class="line"><span class="comment">//修改映射权限</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">mprotect</span><span class="params">(<span class="keyword">void</span> *addr,<span class="keyword">size_t</span> length,<span class="keyword">int</span> prot)</span></span>;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p>vsyscall的例子</p>
+<ul>
+<li>时间：内核维护秒级的时间（所有进程映射同一个页面）<ul>
+<li>time(2)</li>
+</ul>
+</li>
+<li>getcpu per-CPU映射页面</li>
+</ul>
+<p>让内核和进程共享数据（内核可写，进程只读）</p>
+<ul>
+<li>vvar:内核和进程共享的数据</li>
+<li>vdso:系统调用代码实现</li>
+</ul>
+<p>系统调用不一定陷入内核态执行</p>
+</li>
+<li><p>syscall batching</p>
+<p>如果系统调用很多，可以打包处理</p>
+</li>
+<li><p>让进程和内核共享内存</p>
+<ul>
+<li>有一个内核线程在spinning等待系统调用的到来</li>
+<li>系统调用准备好后，只需要一个memory store,系统调用立即开始执行</li>
+<li>进程spin等待系统调用完成</li>
+</ul>
+</li>
+<li><p>mmap并不需要真的为进程分配任何页面</p>
+<p>只需要让操作系统知道这么映射就够了</p>
+<p>进程访问页面会发生缺页进入操作系统</p>
+<ul>
+<li><p>根据操作系统维护的进程地址空间信息分配页面</p>
+</li>
+<li><p>如果访问合法，分配一页</p>
+<ul>
+<li><p>匿名内存-&gt;直接返回</p>
+</li>
+<li><p>文件-&gt;执行read把文件数据读到内存</p>
+<p>所以即便映射整个磁盘，也只有touch的页面被访问</p>
+</li>
+</ul>
+</li>
+<li><p>如果访问非法，发送信号（SIGSEGV)</p>
+<p>段错误</p>
+</li>
+</ul>
+</li>
+<li><p>通过/proc/[pid]/maps查看进程的内存映射（pmap [pid])</p>
+</li>
+<li><p>地址空间终究是属于进程（运行的程序）的</p>
+</li>
+</ul>
+<h3 id="链接与加载"><a href="#链接与加载" class="headerlink" title="链接与加载"></a>链接与加载</h3><ul>
+<li><p>静态链接与加载</p>
+<p>允许引用其他文件里定义的符号</p>
+</li>
+<li><p>静态ELF加载器：加载a.out执行</p>
+<ul>
+<li>根据ELF program header,将文件中指定的部分移动到内存</li>
+<li>操作系统在execve时完成<ul>
+<li>操作系统在内核态调用mmap<ul>
+<li>进程还未准备好时，由内核直接执行系统调用</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>动态链接</p>
+<ul>
+<li>每个程序都静态链接，浪费空间很大</li>
+<li>最好整个系统只有一个libc的副本<ul>
+<li>文件系统里只有一个副本</li>
+<li>内存里只有一个副本</li>
+</ul>
+</li>
+<li>加载纯粹的代码</li>
+</ul>
+</li>
+<li><p>符号地址是运行时才能确定的</p>
+<ul>
+<li>必须在运行时解析符号地址<ul>
+<li>查表（编译成call *table[foo])</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>进程创建</p>
+</li>
+</ul>
+<p>1） 为新进程分配一个进程标示号，并申请一个空白的PCB。</p>
+<p>2） 为进程分配资源，为新进程的程序和数据，以及用户占分配必要的空间。</p>
+<p>3） 初始化PCB，主要包括初始化标识信息、初始化处理器状态信息和初始化处理器控制信息，以及设置进程的空闲及。</p>
+<p>4） 如果进程就绪队列能够接纳新进程，就将新进程插入到就绪队列，等待被调度运行。</p>
+<ul>
+<li><p>操作系统终止进程的过程如下：（撤消原语）</p>
+<p>1） 根据被终止进程的标示符，检索PCB，从中读出该进程的状态。</p>
+<p>2） 若被终止进程处于执行状态，立即终止该进程的执行，将处理器资源分配给其他进程。</p>
+<p>3） 若该进程还有子进程，则应将其所有子进程终止。</p>
+<p>4） 将该进程所拥有的资源、或归还给父进程或归还给操作系统。</p>
+<p>5） 将该PCB从所在队列（链表）中删除。</p>
+</li>
+<li><p>进程切换</p>
+</li>
+</ul>
+<p>1） 保存处理器上下文，包括程序计数器和其他寄存器。</p>
+<p>2） 更新PCB信息。</p>
+<p>3） 把进程的PCB移入相应的队列，如就绪、在某时间阻塞等队列。</p>
+<p>4） 选择另一个进程执行，并更新其PCB。更新内存管理的数据结构。</p>
+<p>5） 恢复处理器的上下文。</p>
+<ul>
+<li><p>SIGKILL与SIGSTOP是两个唯一不能忽略也不能捕获的信号</p>
+</li>
+<li><p>SIGTSTP与SIGSTOP都是使进程暂停（都使用SIGCONT让进程重新激活）。唯一的区别是SIGSTOP不可以捕获。</p>
+<ul>
+<li><p>捕捉SIGTSTP后一般处理如下：用户键入SUSP字符时(通常是Ctrl-Z)发出这个信号</p>
+<p>1）处理完额外的事</p>
+<p>2）恢复默认处理</p>
+<p>3）发送SIGTSTP信号给自己。（使进程进入suspend状态。）</p>
+<p>他仍然在进程中他只是维持挂起的状态,用户可以使用fg/bg操作继续前台或后台的任务,fg命令重新启动前台被中断的任务,bg命令把被中断的任务放在后台执行.</p>
+</li>
+</ul>
+</li>
+<li><p>SIGINT：程序终止(interrupt)信号, 在用户键入INTR字符(通常是Ctrl-C)时发出，用于通知前台进程组终止进程。</p>
+</li>
+<li><p>SIGBUS：非法地址, 包括内存地址对齐(alignment)出错。比如访问一个四个字长的整数, 但其地址不是4的倍数。它与SIGSEGV的区别在于后者是由于对合法存储地址的非法访问触发的(如访问不属于自己存储空间或只读存储空间)。</p>
+</li>
+<li><p>SIGCHLD：子进程结束时, 父进程会收到这个信号。</p>
+<pre><code> 如果父进程没有处理这个信号，也没有等待(wait)子进程，子进程虽然终止，但是还会在内核进程表中占有表项，这时的子进程称为僵尸进程。这种情况我们应该避免(父进程或者忽略SIGCHILD信号，或者捕捉它，或者wait它派生的子进程，或者父进程先终止，这时子进程的终止自动由init进程来接管)。
+</code></pre><p> ctrl-d 不是发送信号，而是表示一个特殊的二进制值，表示 EOF。</p>
+</li>
+</ul>
+<p>注：在shell中，ctrl-d表示推出当前shell.</p>
+<ul>
+<li>重新设置一个进程优先级</li>
+</ul>
+<p><code>renice -20 -p [pid]</code></p>
 
     </div>
 
@@ -347,6 +944,9 @@
     
 
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="tag"><i class="fa fa-tag"></i> 操作系统</a>
+          </div>
 
         
 
@@ -357,6 +957,9 @@
                 </a>
             </div>
             <div class="post-nav-item">
+                <a href="/2021/05/31/B-tree/" rel="next" title="B-tree">
+                  B-tree <i class="fa fa-chevron-right"></i>
+                </a>
             </div>
           </div>
       </footer>
